@@ -8,13 +8,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray">
 
-    <LinearLayout
-        android:id="@+id/fcontainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-    </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
@@ -23,6 +16,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/fcontainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

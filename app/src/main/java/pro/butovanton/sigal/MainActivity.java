@@ -1,6 +1,7 @@
 package pro.butovanton.sigal;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
@@ -17,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements satselect.OnFragmentInteractionListener {
 
     RecyclerView recyclerView;
     FragmentManager fragmentManager;
@@ -61,4 +62,8 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        Log.d("DEBUG", "FragmentInteraction Uri:"+uri);
+    }
 }
