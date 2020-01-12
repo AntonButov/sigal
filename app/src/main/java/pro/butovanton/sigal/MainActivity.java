@@ -1,5 +1,6 @@
 package pro.butovanton.sigal;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
@@ -8,6 +9,8 @@ import android.widget.AdapterView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,10 +20,15 @@ import java.util.ArrayList;
 public class MainActivity extends FragmentActivity {
 
     RecyclerView recyclerView;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    satselect msatselect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fragmentManager = getSupportFragmentManager();
+        msatselect = new satselect();
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView)findViewById(R.id.my_recycler_view);
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,recyclerView, new RecyclerTouchListener.ClickListener() {
@@ -32,7 +40,9 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View child, int childPosition) {
                 Log.d("DEBUG", "Click childPosittion="+childPosition);
-
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.fcontainer, msatselect);
+                fragmentTransaction.commit();
             }
         }));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

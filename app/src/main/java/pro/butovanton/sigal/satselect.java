@@ -33,6 +33,7 @@ public class satselect extends Fragment {
 
     public satselect() {
         // Required empty public constructor
+
     }
 
     /**
