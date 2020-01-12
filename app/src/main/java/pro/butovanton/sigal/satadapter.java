@@ -1,5 +1,6 @@
 package pro.butovanton.sigal;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class satadapter extends RecyclerView.Adapter<satadapter.satViewHolder> {
+
     ArrayList<satellite> satelittes;
 
     public  satadapter (ArrayList<satellite> satelittes) {
         this.satelittes = satelittes;
     }
 
-    public class satViewHolder extends RecyclerView.ViewHolder {
+    public class satViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imgsat;
         TextView name;
         TextView description;
@@ -28,6 +30,12 @@ public class satadapter extends RecyclerView.Adapter<satadapter.satViewHolder> {
             imgsat = (ImageView) itemView.findViewById(R.id.image);
             name = (TextView) itemView.findViewById(R.id.name);
             description = (TextView) itemView.findViewById(R.id.description);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Log.d("DEBUG","onClick "+ getPosition());
         }
     }
 
@@ -43,13 +51,16 @@ public class satadapter extends RecyclerView.Adapter<satadapter.satViewHolder> {
         holder.imgsat.setImageResource(satelittes.get(position).getImage());
         holder.name.setText(satelittes.get(position).getname());
         holder.description.setText(satelittes.get(position).getdescription());
-
     }
+
+
 
     @Override
     public int getItemCount() {
         return satelittes.size();
     }
+
+
 
 
 }
