@@ -41,9 +41,11 @@ public class MainActivity extends FragmentActivity implements satselect.OnFragme
             @Override
             public void onClick(View child, int childPosition) {
                 Log.d("DEBUG", "Click childPosittion="+childPosition);
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.fcontainer, msatselect);
-                fragmentTransaction.commit();
+                if (fragmentManager.getFragments().size() == 0) {
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.add(R.id.fcontainer, msatselect);
+                    fragmentTransaction.commit();
+                }
             }
         }));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
