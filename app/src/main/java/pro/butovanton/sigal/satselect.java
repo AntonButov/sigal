@@ -1,14 +1,20 @@
 package pro.butovanton.sigal;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 /**
@@ -24,6 +30,9 @@ public class satselect extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    TextView mteTextView;
+    FloatingActionButton fabfinder;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,8 +75,22 @@ public class satselect extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_satselect, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_satselect, container, false);
+        mteTextView = view.findViewById(R.id.textView4);
+        fabfinder = view.findViewById(R.id.fabfinder);
+        fabfinder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), camera.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+        if (mteTextView != null)
+        mteTextView.setText("Полностью готовое решение для просмотра спутниковых и онлайн каналов Триколор в формате стандартной и высокой (HD)(1) четкости на двух телевизорах. Цифровой приёмник-сервер GS B532M обеспечивает приём и трансляцию контента по локальной сети на приёмник-клиент GS C592, подключаемый ко второму телевизору, а также на планшет или смартфон. Отличительной особенностью приёмника-сервера является встроенная память, объемом 8 ГБ. В комплект входят антенна и конвертер для приёма спутникового сигнала. Для расширения возможностей телесмотрения рекомендуем подключить приёмник к сети Интернет и использовать внешний жёсткий диск объёмом от 64 ГБ, который Вы можете приобрести отдельно. Сервисы Триколор Абонентам Триколор предоставляется широкий выбор каналов и удобные интерактивные сервисы  Более 150 каналов. Десятки — в HD-качестве. «Онлайн ТВ» - просмотр программы с начала, перемотка и пауза без использования жесткого диска и архив передач до 7 дней. «Управляй эфиром» - функции паузы, перемотки и записи. «Кинозалы» - новинки кино в Вашем приёмнике без рекламы и расписания. «Лучшее на ТВ» - подборки лучшего контента в удобных жанровых списках.");
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

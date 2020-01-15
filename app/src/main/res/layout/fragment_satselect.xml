@@ -21,7 +21,8 @@
         app:layout_anchorGravity="center"
         app:layout_collapseMode="parallax"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="TODO" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -39,38 +40,38 @@
 
             app:srcCompat="@drawable/ic_plus" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabfinder"
-            style="@style/Widget.MaterialComponents.FloatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="244dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabfinder"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="244dp"
 
-            app:backgroundTint="@android:color/background_light"
+        app:backgroundTint="@android:color/holo_orange_light"
 
-            app:layout_anchorGravity="bottom|end"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+        app:layout_anchorGravity="bottom|end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
 
-            app:srcCompat="@drawable/satellitsmart" />
+        app:srcCompat="@drawable/satellitsmart" />
 
-        <TextView
-            android:id="@+id/textPrice"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="5dp"
-            android:background="@android:color/background_light"
-            android:gravity="center_horizontal"
-            android:text="10 500 ₽"
-            android:textColor="@color/colorPrimary"
-            android:textSize="26dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/fabfinder"
-            app:layout_constraintTop_toBottomOf="@+id/textname" />
+    <TextView
+        android:id="@+id/textPrice"
+        android:layout_width="0dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="5dp"
+        android:background="@android:color/background_light"
+        android:gravity="center_horizontal"
+        android:text="10 500 ₽"
+        android:textColor="@color/colorPrimary"
+        android:textSize="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textname" />
 
         <TextView
             android:id="@+id/textname"
@@ -87,27 +88,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_image" />
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         android:fillViewport="true"
         android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textPrice">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="800dp"
+                android:layout_margin="5dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
                 android:background="@android:color/background_light"
-                android:text="Полностью готовое решение для просмотра спутниковых и онлайн каналов Триколор в формате стандартной и высокой (HD)(1) четкости на двух телевизорах. Цифровой приёмник-сервер GS B532M обеспечивает приём и трансляцию контента по локальной сети на приёмник-клиент GS C592, подключаемый ко второму телевизору, а также на планшет или смартфон. Отличительной особенностью приёмника-сервера является встроенная память, объемом 8 ГБ. В комплект входят антенна и конвертер для приёма спутникового сигнала. Для расширения возможностей телесмотрения рекомендуем подключить приёмник к сети Интернет и использовать внешний жёсткий диск объёмом от 64 ГБ, который Вы можете приобрести отдельно. Сервисы Триколор Абонентам Триколор предоставляется широкий выбор каналов и удобные интерактивные сервисы  Более 150 каналов. Десятки — в HD-качестве. «Онлайн ТВ» - просмотр программы с начала, перемотка и пауза без использования жесткого диска и архив передач до 7 дней. «Управляй эфиром» - функции паузы, перемотки и записи. «Кинозалы» - новинки кино в Вашем приёмнике без рекламы и расписания. «Лучшее на ТВ» - подборки лучшего контента в удобных жанровых списках."
+                android:isScrollContainer="true"
+                android:padding="16dp"
+
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

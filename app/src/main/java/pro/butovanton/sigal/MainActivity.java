@@ -7,6 +7,7 @@ import android.os.Debug;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
@@ -24,6 +25,7 @@ public class MainActivity extends FragmentActivity implements satselect.OnFragme
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     satselect msatselect;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class MainActivity extends FragmentActivity implements satselect.OnFragme
                 if (fragmentManager.getFragments().size() == 0) {
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.add(R.id.fcontainer, msatselect);
+                    fragmentTransaction.addToBackStack("satfragment");
                     fragmentTransaction.commit();
                 }
             }
