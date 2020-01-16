@@ -111,31 +111,55 @@ public class camera extends FragmentActivity {
         };
 
         private void createCameraPreviewSession() {
-            SurfaceTexture texture = mTextureView.getSurfaceTexture();
-            texture.setDefaultBufferSize(720,480);
-            Surface surface = new Surface(texture);
-            try {
-                final CaptureRequest.Builder builder =
-                        mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-                builder.addTarget(surface);
-                mCameraDevice.createCaptureSession(Arrays.asList(surface),
-                        new CameraCaptureSession.StateCallback() {
-                            @Override
-                            public void onConfigured(CameraCaptureSession session) {
-                                mCaptureSession = session;
-                                try {
-                                    mCaptureSession.setRepeatingRequest(builder.build(),null,null);
-                                } catch (CameraAccessException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onConfigureFailed(CameraCaptureSession session) { }}, null );
-            } catch (CameraAccessException e) {
-                e.printStackTrace();
-            }
+            mTextureView.setSurfaceTextureListener(surfaceTextureListener);
         }
+
+        TextureView.SurfaceTextureListener surfaceTextureListener = new TextureView.SurfaceTextureListener() {
+
+            @Override
+            public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
+  //              SurfaceTexture texture = mTextureView.getSurfaceTexture();
+ //               texture.setDefaultBufferSize(720,480);
+  //              Surface surface = new Surface(texture);
+                Surface surface = new Surface(surfaceTexture);
+                try {
+                    final CaptureRequest.Builder builder =
+                            mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+                    builder.addTarget(surface);
+                    mCameraDevice.createCaptureSession(Arrays.asList(surface),
+                            new CameraCaptureSession.StateCallback() {
+                                @Override
+                                public void onConfigured(CameraCaptureSession session) {
+                                    mCaptureSession = session;
+                                    try {
+                                        mCaptureSession.setRepeatingRequest(builder.build(),null,null);
+                                    } catch (CameraAccessException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onConfigureFailed(CameraCaptureSession session) { }}, null );
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+
+            }
+
+            @Override
+            public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+                return false;
+            }
+
+            @Override
+            public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
+            }
+        };
 
         public boolean isOpen() {
             if (mCameraDevice == null) {
