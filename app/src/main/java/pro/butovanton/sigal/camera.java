@@ -33,8 +33,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.Math.abs;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static java.lang.Math.toDegrees;
 
 public class camera extends FragmentActivity implements SensorEventListener {
 
@@ -63,8 +65,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
     int Lx;
 
-    int azimuthfix,xosfix;
-    float conerplacefix;
+    float conerplacefix,azimuthfix,xosfix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +134,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        final float alpha = 0.97f;
+        final float alpha = 0.95f;
         synchronized (this) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 mGravity[0] = alpha * mGravity[0] + (1 - alpha)
@@ -163,24 +164,27 @@ public class camera extends FragmentActivity implements SensorEventListener {
             boolean success = SensorManager.getRotationMatrix(r, I, mGravity, mGeomagnetic);
             if (success) {
                 if (timeold1 == 0) timeold1 = event.timestamp;
-                int azimuth,xos,dy;
-                float conerplace;
+                int azimuth;
+                float conerplace,coner,dy, xos;
                 SensorManager.getOrientation(r, orientation);
+                coner = (float) ((Math.PI / 2) + orientation[1]);
+                conerplace = (float) toDegrees(coner);
                 azimuth = (int) Math.toDegrees(orientation[0]); // orientation
                 azimuth = (azimuth+180) % 360;
-                conerplace = (90+(int)Math.toDegrees(orientation[1]))%360; // orientation
+               // conerplace = (90+(int)Math.toDegrees(orientation[1]))%360; // orientation
                 xos = (int) Math.toDegrees(orientation[2]); // orientation
                 xos = (xos) % 360;
                 Log.d("DEBUG", "xos= "+xos);
                 Log.d("DEBUG", "conerplase= "+conerplace);
-                if ((xos < 90 && xos > 0) | (xos>-90 && xos <= 0)) {
-                    conerplace = -conerplace;
-                    xos = - xos;
+                if ((xos < 90 && xos >= 0) | (xos>-90 && xos <= 0)) {
+                        conerplace = -conerplace;
+                        coner = -coner;
+                        xos = -xos;
+
                     }
                 else if (xos<=0 && xos> -180) xos = xos + 180;
                      else xos = xos - 180;
                 xos = (int) (xos * cos(orientation[1]));
-                xos = xos / 1;
                 azimut.setText(getString(R.string.azim)+ azimuth);
                 corner.setText(getString(R.string.coner) + (int)conerplace);
                // Log.d("DEBUG", "azimut= "+azimuth+" "+conerplace);
@@ -188,21 +192,20 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
                 // animation-----------------------------------------------------------------------
 
-                    if (event.timestamp-timeold1>400) {
+                    if (event.timestamp-timeold1>100000000) {
                         timeold1 = event.timestamp;
-                        dy = dY(conerplace);
+                        dy = dY(coner,orientation[0]);
                         int d = (imageLineGor.getWidth() - getResources().getDisplayMetrics().widthPixels)/2;
                         TranslateAnimation animation = new TranslateAnimation(-d, 0, dy, 0);
-                        animation.setDuration(400);
-                        animation.setFillEnabled(true);
-                        imageLineGor.startAnimation(animation);
+                        //imageLineGor.startAnimation(animation);
                         Animation an = new RotateAnimation(xos, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
                                 0.5f);
-                        an.setDuration(400);
                         an.setFillEnabled(true);
                         AnimationSet animationSet = new AnimationSet(true);
                         animationSet.addAnimation(an);
                         animationSet.addAnimation(animation);
+                        animationSet.setFillAfter(true);
+                        animationSet.setDuration(1000);
                         imageLineGor.startAnimation(animationSet);
 
                         azimuthfix = azimuth;
@@ -215,14 +218,14 @@ public class camera extends FragmentActivity implements SensorEventListener {
         }
     }
 
-    private int dY(float coner){
-        double rd = rad(coner);
-    return (int) (Lx*sin(rd));
+    private float dY(float coner, float xos){
+        //double rd = rad(coner);
+    return (float) (Lx*sin(coner)*abs(cos(xos)));
     }
 
-    private double rad(float coner) {
-     return (Math.PI*coner)/180;
-    }
+  //  private double rad(float coner) {
+  //   return (Math.PI*coner)/180;
+   // }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
