@@ -7,4 +7,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="NoPermAver">Без этого разрешения работа с камерой не возможна.</string>
+    <string name="coner">Угол места:</string>
+    <string name="azim">Азимут:</string>
 </resources>
