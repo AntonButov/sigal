@@ -179,8 +179,8 @@ public class camera extends FragmentActivity implements SensorEventListener {
                     }
                 else if (xos<=0 && xos> -180) xos = xos + 180;
                      else xos = xos - 180;
-                xos = (int) (xos * cos(rad(conerplace)));
-                xos = xos / 5;
+                xos = (int) (xos * cos(orientation[1]));
+                xos = xos / 1;
                 azimut.setText(getString(R.string.azim)+ azimuth);
                 corner.setText(getString(R.string.coner) + (int)conerplace);
                // Log.d("DEBUG", "azimut= "+azimuth+" "+conerplace);
