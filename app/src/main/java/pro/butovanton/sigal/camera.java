@@ -205,7 +205,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         animationSet.addAnimation(an);
                         animationSet.addAnimation(animation);
                         animationSet.setFillAfter(true);
-                        animationSet.setDuration(1000);
+                        animationSet.setDuration(4000);
                         imageLineGor.startAnimation(animationSet);
 
                         azimuthfix = azimuth;
