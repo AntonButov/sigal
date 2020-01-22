@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -170,22 +171,28 @@ public class camera extends FragmentActivity implements SensorEventListener {
                 coner = (float) ((Math.PI / 2) + orientation[1]);
                 conerplace = (float) Math.toDegrees(coner);
                 azimuth = orientation[0]; // orientation
-                azimuthcon = (float) Math.toDegrees(azimuth);
+                if (azimuth<0) {
+                    azimuth = (float) (azimuth + 2*PI);
+                }
+
                // conerplace = (90+(int)Math.toDegrees(orientation[1]))%360; // orientation
                 xos = (int) Math.toDegrees(orientation[2]); // orientation
                 xos = (xos) % 360;
                 Log.d("DEBUG", "xos= "+xos);
                 Log.d("DEBUG", "conerplase= "+conerplace);
                 if ((xos < 90 && xos >= 0) | (xos>-90 && xos <= 0)) {
-                        conerplace = -conerplace;
+                        conerplace = - conerplace;
                         coner = -coner;
                         xos = -xos;
-
                     }
-                else if (xos<=0 && xos> -180) xos = xos + 180;
+                else {
+                     if (xos <= 0 && xos > -180) xos = xos + 180;
                      else xos = xos - 180;
+                     azimuth = (float) (azimuth - PI);
+                }
                 xos = (int) (xos * cos(orientation[1]));
-                azimut.setText(getString(R.string.azim)+ azimuthcon);
+                azimuthcon = (float) Math.toDegrees(azimuth);
+                azimut.setText(getString(R.string.azim)+ (int)azimuthcon);
                 corner.setText(getString(R.string.coner) + (int)conerplace);
                // Log.d("DEBUG", "azimut= "+azimuth+" "+conerplace);
                // Log.d("DEBUG", "azimutfix= "+azimuthfix+" "+conerplacefix);
@@ -196,7 +203,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         timeold1 = event.timestamp;
                         dy = dY(coner,orientation[2]);
                         int d = (imageLineGor.getWidth() - getResources().getDisplayMetrics().widthPixels)/2;
-                        TranslateAnimation animationSatel = new TranslateAnimation(- dX((float) rad(azimuthsat),0) + dX((float) (orientation[0]),0), 0,- dY((float) rad(conerplacesat),0) + dY((float) (coner ),0),0);
+                        TranslateAnimation animationSatel = new TranslateAnimation(+ dX((float) rad(azimuthsat),0) + dX((float) (orientation[0]),0), 0,- dY((float) rad(conerplacesat),0) + dY((float) (coner ),0),0);
                         animationSatel.setDuration(4000);
                         TranslateAnimation animationGorgor = new TranslateAnimation(-d, 0, dy, 0);
                         Animation animationGorRot = new RotateAnimation(xos, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
