@@ -136,7 +136,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        final float alpha = 0.95f;
+        final float alpha = 0.1f;
         synchronized (this) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 mGravity[0] = alpha * mGravity[0] + (1 - alpha)
@@ -166,7 +166,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
             boolean success = SensorManager.getRotationMatrix(r, I, mGravity, mGeomagnetic);
             if (success) {
                 if (timeold1 == 0) timeold1 = event.timestamp;
-                float conerplace,coner,dy, xos, azimuth, azimuthcon;
+                float conerplace,coner,dy, xos,xorR, azimuth, azimuthcon;
                 SensorManager.getOrientation(r, orientation);
                 coner = (float) ((Math.PI / 2) + orientation[1]);
                 conerplace = (float) Math.toDegrees(coner);
@@ -176,10 +176,9 @@ public class camera extends FragmentActivity implements SensorEventListener {
                 }
 
                // conerplace = (90+(int)Math.toDegrees(orientation[1]))%360; // orientation
+                xorR = orientation[2];
                 xos = (int) Math.toDegrees(orientation[2]); // orientation
-                xos = (xos) % 360;
-                Log.d("DEBUG", "xos= "+xos);
-                Log.d("DEBUG", "conerplase= "+conerplace);
+                //xos = (xos);
                 if ((xos < 90 && xos >= 0) | (xos>-90 && xos <= 0)) {
                         conerplace = - conerplace;
                         coner = -coner;
@@ -190,7 +189,13 @@ public class camera extends FragmentActivity implements SensorEventListener {
                      else xos = xos - 180;
                      azimuth = (float) (azimuth - PI);
                 }
+
                 xos = (int) (xos * cos(orientation[1]));
+                if (xorR<=0) xorR = (float) (xorR + PI);
+                   else xorR = (float) (xorR - PI);
+                Log.d("DEBUG", "xos= "+xos);
+                Log.d("DEBUG", "xor= "+toDegrees(xorR));
+                azimuth = (float) (azimuth - xorR*cos(coner));
                 azimuthcon = (float) Math.toDegrees(azimuth);
                 azimut.setText(getString(R.string.azim)+ (int)azimuthcon);
                 corner.setText(getString(R.string.coner) + (int)conerplace);
@@ -199,11 +204,11 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
                 // animation-----------------------------------------------------------------------
 
-                    if (event.timestamp-timeold1>100000000) {
+                    if (event.timestamp-timeold1>50000000) {
                         timeold1 = event.timestamp;
                         dy = dY(coner,orientation[2]);
                         int d = (imageLineGor.getWidth() - getResources().getDisplayMetrics().widthPixels)/2;
-                        TranslateAnimation animationSatel = new TranslateAnimation(+ dX((float) rad(azimuthsat),0) + dX((float) (orientation[0]),0), 0,- dY((float) rad(conerplacesat),0) + dY((float) (coner ),0),0);
+                        TranslateAnimation animationSatel = new TranslateAnimation(+ dX((float) rad(azimuthsat)) + dX((float) (azimuth + PI)), 0,- dY((float) rad(conerplacesat),0) + dY((float) (coner ),0),0);
                         animationSatel.setDuration(4000);
                         TranslateAnimation animationGorgor = new TranslateAnimation(-d, 0, dy, 0);
                         Animation animationGorRot = new RotateAnimation(xos, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
@@ -222,8 +227,8 @@ public class camera extends FragmentActivity implements SensorEventListener {
         }
     }
 
-    private float dX(float coner, float xos){
-        return (float) (Lx*sin(coner)*abs(cos(xos)));
+    private float dX(float coner){
+        return (float) (Lx*sin(coner));
     }
 
     private float dY(float coner, float xos){
