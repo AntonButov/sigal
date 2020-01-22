@@ -16,6 +16,15 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import static java.lang.Math.atan;
+import static java.lang.Math.cos;
+import static java.lang.Math.pow;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
+import static java.lang.Math.tan;
+import static java.lang.Math.toDegrees;
+import static java.lang.Math.toRadians;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,7 +98,8 @@ public class satselect extends Fragment {
         });
         if (mteTextView != null)
         mteTextView.setText("Полностью готовое решение для просмотра спутниковых и онлайн каналов Триколор в формате стандартной и высокой (HD)(1) четкости на двух телевизорах. Цифровой приёмник-сервер GS B532M обеспечивает приём и трансляцию контента по локальной сети на приёмник-клиент GS C592, подключаемый ко второму телевизору, а также на планшет или смартфон. Отличительной особенностью приёмника-сервера является встроенная память, объемом 8 ГБ. В комплект входят антенна и конвертер для приёма спутникового сигнала. Для расширения возможностей телесмотрения рекомендуем подключить приёмник к сети Интернет и использовать внешний жёсткий диск объёмом от 64 ГБ, который Вы можете приобрести отдельно. Сервисы Триколор Абонентам Триколор предоставляется широкий выбор каналов и удобные интерактивные сервисы  Более 150 каналов. Десятки — в HD-качестве. «Онлайн ТВ» - просмотр программы с начала, перемотка и пауза без использования жесткого диска и архив передач до 7 дней. «Управляй эфиром» - функции паузы, перемотки и записи. «Кинозалы» - новинки кино в Вашем приёмнике без рекламы и расписания. «Лучшее на ТВ» - подборки лучшего контента в удобных жанровых списках.");
-
+       // float F = conerplace(37,56,36);//=26гр
+       // float A = azimuthsat(37,56,36);//=181гр
         return view;
     }
 
@@ -98,6 +108,20 @@ public class satselect extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    private float conerplace(float g2, float v, float g1) {
+        g2 = (float) toRadians(g2);
+        g1 = (float) toRadians(g1);
+        v = (float) toRadians(v);
+        return (float) toDegrees(Math.atan((cos(g2-g1)*cos(v)-0.151)/sqrt(1-pow(cos(g2-g1),2)*pow(cos(v),2))));
+    }
+
+    private float azimuthsat(float g2, float v, float g1) {
+        g2 = (float) toRadians(g2);
+        g1 = (float) toRadians(g1);
+        v = (float) toRadians(v);
+        return (float) (180 + toDegrees(atan(tan(g2-g1)/sin(v))));
     }
 
     @Override
