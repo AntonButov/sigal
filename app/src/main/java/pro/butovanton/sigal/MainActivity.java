@@ -51,6 +51,24 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
             actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
         }
 
+        // Swipe viewpager when respective page selected
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                // When changing the page make respected tab selected
+                actionBar.setSelectedNavigationItem(position);
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
+
         fragmentManager = getSupportFragmentManager();
         msatselect = new satselect();
 
@@ -74,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+        viewPager.setCurrentItem(tab.getPosition());
 
     }
 
