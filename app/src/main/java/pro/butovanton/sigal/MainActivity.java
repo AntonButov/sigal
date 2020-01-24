@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
     private ActionBar actionBar;
 
     // Tabs title
-    private String[] tabs = {"Android", "Ios"};
+    private String[] tabs = {"ТВ", "Интернет","Спутники"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +75,10 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
         ArrayList<satellite> satelittes = new ArrayList<satellite>();
         satelittes.add(new satellite(R.drawable.item_212, "Спутниковый интернет SenSat 2 Вт","Скорость до 45 мб/с Оптимальный вариант для северных широт и коллективного доступа."));
         satelittes.add(new satellite(R.drawable.tricolor532,"Триколор двойной GS B532M (Сибирь)","Комплект оборудования с цифровым приёмником GS B532M предназначен для просмотра спутниковых и онлайн каналов Триколор в формате стандартной и высокой (HD)(1) четкости. "));
-        satadapter msatadapter = new satadapter(satelittes);
 
+        ArrayList<satellite> satelittesinternet = new ArrayList<satellite>();
+        satelittesinternet.add(new satellite(R.drawable.item_212, "Спутниковый интернет SenSat 2 Вт","Скорость до 45 мб/с Оптимальный вариант для северных широт и коллективного доступа."));
+        satelittesinternet.add(new satellite(R.drawable.tricolor532,"Триколор двойной GS B532M (Сибирь)","Комплект оборудования с цифровым приёмником GS B532M предназначен для просмотра спутниковых и онлайн каналов Триколор в формате стандартной и высокой (HD)(1) четкости. "));
          // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
