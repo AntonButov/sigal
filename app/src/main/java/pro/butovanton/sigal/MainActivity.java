@@ -15,15 +15,12 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements satselect.OnFragmentInteractionListener, ActionBar.TabListener {
 
-    RecyclerView recyclerView;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     satselect msatselect;
@@ -56,31 +53,11 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
 
         fragmentManager = getSupportFragmentManager();
         msatselect = new satselect();
-        recyclerView = findViewById(R.id.my_recycler_view);
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,recyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onLongClick(View child, int childPosition) {
-
-            }
-
-            @Override
-            public void onClick(View child, int childPosition) {
-                Log.d("DEBUG", "Click childPosittion="+childPosition);
-     //           if (fragmentManager.getFragments().size() == 0) {
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.add(R.id.fcontainer, msatselect);
-                    fragmentTransaction.addToBackStack("satfragment");
-                    fragmentTransaction.commit();
-            //    }
-            }
-        }));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         ArrayList<satellite> satelittes = new ArrayList<satellite>();
         satelittes.add(new satellite(R.drawable.item_212, "Спутниковый интернет SenSat 2 Вт","Скорость до 45 мб/с Оптимальный вариант для северных широт и коллективного доступа."));
         satelittes.add(new satellite(R.drawable.tricolor532,"Триколор двойной GS B532M (Сибирь)","Комплект оборудования с цифровым приёмником GS B532M предназначен для просмотра спутниковых и онлайн каналов Триколор в формате стандартной и высокой (HD)(1) четкости. "));
         satadapter msatadapter = new satadapter(satelittes);
-        recyclerView.setAdapter(msatadapter);
 
          // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

@@ -19,10 +19,10 @@ public class TabsAdapter extends FragmentPagerAdapter implements ActionBar.TabLi
         switch (index) {
             case 0:
                 // Android fragment
-                return new Android_Fragment();
+                return new TV();
             case 1:
                 // Ios fragment
-                return new Ios_Fragment();
+                return new internet();
         }
         return null;
     }
