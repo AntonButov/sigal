@@ -41,14 +41,6 @@ public class TV extends Fragment implements satselect.OnFragmentInteractionListe
 
             @Override
             public void onClick(View child, int childPosition) {
-                Log.d("DEBUG", "Click childPosittion="+childPosition);
-
-                //           if (fragmentManager.getFragments().size() == 0) {
-       //         fragmentTransaction = fragmentManager.beginTransaction();
-       //         fragmentTransaction.add(R.id.fcontainer, msatselect);
-        //        fragmentTransaction.addToBackStack("satfragment");
-      //          fragmentTransaction.commit();
-                //    }
                 Fragment satcelect = new satselect();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
