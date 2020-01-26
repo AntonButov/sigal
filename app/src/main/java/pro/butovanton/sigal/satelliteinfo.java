@@ -3,10 +3,12 @@ package pro.butovanton.sigal;
 public class satelliteinfo {
     private String name;
     private String description;
+    private int coner;
 
-    public satelliteinfo(String name, String description){
+    public satelliteinfo(String name, String description, int coner){
         this.name = name;
         this.description = description;
+        this.coner = coner;
 
     }
 
@@ -18,5 +20,5 @@ public class satelliteinfo {
         return this.description;
     }
 
-
+    public int getConer() { return this.coner; }
 }
