@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="240dp"
         android:fitsSystemWindows="true"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:src="@drawable/tricolorsmart"
         app:layout_anchorGravity="center"
         app:layout_collapseMode="parallax"
@@ -38,15 +38,13 @@
             style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="244dp"
+            android:layout_marginTop="180dp"
             android:layout_marginEnd="5dp"
             android:tint="@android:color/white"
             app:backgroundTint="@android:color/holo_orange_light"
-
             app:layout_anchorGravity="bottom|end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
             app:srcCompat="@drawable/ic_plus" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -55,23 +53,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="244dp"
-
+        android:layout_marginTop="180dp"
         app:backgroundTint="@android:color/holo_orange_light"
-
         app:layout_anchorGravity="bottom|end"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
         app:srcCompat="@drawable/satellitsmart" />
 
     <TextView
         android:id="@+id/textPrice"
         android:layout_width="0dp"
         android:layout_height="34dp"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="3dp"
         android:background="@android:color/background_light"
         android:gravity="center_horizontal"
         android:text="10 500 ₽"
@@ -86,9 +81,9 @@
             android:id="@+id/textname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
             android:background="@android:color/background_light"
             android:gravity="center_horizontal"
             android:text="Триколор с приёмниками GS B532M."
@@ -100,9 +95,9 @@
            android:id="@+id/textView4"
            android:layout_width="0dp"
            android:layout_height="800dp"
-           android:layout_margin="5dp"
-           android:layout_marginStart="5dp"
-           android:layout_marginEnd="5dp"
+           android:layout_margin="3dp"
+           android:layout_marginStart="3dp"
+           android:layout_marginEnd="3dp"
            android:background="@android:color/background_light"
            android:isScrollContainer="true"
            android:padding="16dp"

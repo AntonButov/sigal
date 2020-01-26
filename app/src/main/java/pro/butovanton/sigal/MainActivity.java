@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -56,8 +57,14 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
 
             @Override
             public void onPageSelected(int position) {
-                // When changing the page make respected tab selected
                 actionBar.setSelectedNavigationItem(position);
+                Log.d("DEBUG","fragmentcount="+fragmentManager.getBackStackEntryCount());
+                // When changing the page make respected tab selected
+                int count = fragmentManager.getBackStackEntryCount();
+                while(count > 0){
+                    fragmentManager.popBackStack();
+                    count--;
+                }
             }
 
             @Override

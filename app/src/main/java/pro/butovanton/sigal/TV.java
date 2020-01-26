@@ -41,7 +41,7 @@ public class TV extends Fragment implements satselect.OnFragmentInteractionListe
 
             @Override
             public void onClick(View child, int childPosition) {
-                Fragment satcelect = new satselect();
+                Fragment satcelect = satselect.newInstance("TV",childPosition);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fcontainer, satcelect);
@@ -51,15 +51,10 @@ public class TV extends Fragment implements satselect.OnFragmentInteractionListe
         }));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ArrayList<satellite> satelittes = new ArrayList<satellite>();
-        satelittes.add(new satellite(R.drawable.item_212, "Спутниковый интернет SenSat 2 Вт","Скорость до 45 мб/с Оптимальный вариант для северных широт и коллективного доступа."));
-        satelittes.add(new satellite(R.drawable.ht11small1100,"Модем НТ1100 (JUPITER Hughes) Sensat","НТ1100 (JUPITER Hughes) – высокопроизводительный широкополосный спутниковый маршрутизатор нового поколения с функцией передачи данных  в  многолучевых  спутниковых системах  Ка-диапазона со спутника АМ6"));
-        satelittes.add(new satellite(R.drawable.internetpossmall, "Спутниковый интернет для посёлков","Спутниковый интернет коллективного пользования для удалённых посёлков.\n" +
-                "\n" +
-                "Состав:\n" +
-                "\n" +
-                "1.МССС (малая станция спутниковой связи)\n" +
-                "2. WI-FI передатчик с радиусом действия до 3км "));
-        satelittes.add(new satellite(R.drawable.ht11small1100, "Модем НТ1100 (JUPITER Hughes) Радуга Интернет","НТ1100 (JUPITER Hughes) – высокопроизводительный широкополосный спутниковый маршрутизатор нового поколения с функцией передачи данных  в  многолучевых  спутниковых системах  Ка-диапазона со спутника АМ6."));
+        satelittes.add(new satellite(R.drawable.tricolor532, "Триколор двойной GS B532M (Сибирь)","Комплект оборудования с цифровым приёмником GS B532M предназначен для просмотра спутниковых и онлайн каналов Триколор в формате стандартной и высокой (HD)(1) четкости."));
+        satelittes.add(new satellite(R.drawable.telekarta,"комплект спутникового ТВ Телекарта ( подписка на три года)","HD-комплект спутникового телевидения «Телекарта» — это выбор прагматичных."));
+        satelittes.add(new satellite(R.drawable.tricolor532, "Триколор с приёмниками GS B532M и C592 (Сибирь)","Полностью готовое решение для просмотра спутниковых и онлайн каналов Триколор в формате стандартной и высокой (HD)(1) четкости на двух телевизорах."));
+        satelittes.add(new satellite(R.drawable.mts, "Спутниковое ТВ от МТС","Даже в самых дальних уголках России. Свыше 190 каналов, включая 35 в HD Легко подключить где угодно: в загородном доме, на даче, в квартир"));
         satadapter msatadapter = new satadapter(satelittes);
         recyclerView.setAdapter(msatadapter);
         return view;

@@ -39,7 +39,7 @@ public class internet extends Fragment implements satselect.OnFragmentInteractio
 
             @Override
             public void onClick(View child, int childPosition) {
-                Fragment satcelect = new satselect();
+                Fragment satcelect = satselect.newInstance("internet",childPosition);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fcontainer, satcelect);
@@ -58,6 +58,8 @@ public class internet extends Fragment implements satselect.OnFragmentInteractio
                 "1.МССС (малая станция спутниковой связи)\n" +
                 "2. WI-FI передатчик с радиусом действия до 3км "));
         satelittes.add(new satellite(R.drawable.ht11small1100, "Модем НТ1100 (JUPITER Hughes) Радуга Интернет","НТ1100 (JUPITER Hughes) – высокопроизводительный широкополосный спутниковый маршрутизатор нового поколения с функцией передачи данных  в  многолучевых  спутниковых системах  Ка-диапазона со спутника АМ6."));
+        satelittes.add(new satellite(R.drawable.vsat, "Спутниковый Модем MDM2200 ( NTC2299 ","Основные характеристики   - Небольшой размер, настольное или настенное исполнение - DVB-S2 ACM в прямом канале - 4CPM MF-TDMA адаптивный обратный канал"));
+        satelittes.add(new satellite(R.drawable.gazprom, "Спутниковый интернет SAT3Play ПАО Газпром","Спутниковая антенна 0,75 метра. Интерактивный LNB (iLNB) с передатчиком сигнала Ku-диапазона 0.98Вт"));
         satadapter msatadapter = new satadapter(satelittes);
         recyclerViewinet.setAdapter(msatadapter);
         return view;
