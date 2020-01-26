@@ -43,43 +43,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/satellitsmart" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fab_qibla"
+        style="@style/Widget.AppCompat.ActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fabfinder"
+        android:layout_below="@+id/description"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="5dp"
-        android:tint="@android:color/white"
+        android:text="Qibla Finder"
+        app:iconSize="20dp"
+        app:iconGravity="start"
+        android:elevation="3dp"
+        app:cornerRadius="32dp"
         app:backgroundTint="@android:color/holo_orange_light"
-        app:layout_anchorGravity="bottom|end"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        app:srcCompat="@drawable/call" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/description"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="20dp"
-        android:layout_toStartOf="@+id/fabfinder"
-        android:elevation="4dp"
-        android:text="Посмотреть доступность" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/description"
-        android:layout_marginTop="110dp"
-        android:layout_marginEnd="20dp"
-        android:layout_toStartOf="@+id/fabfinder"
-        android:elevation="4dp"
-        android:text="Позвонить консультанту" />
+        app:icon="@drawable/call"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </RelativeLayout>
