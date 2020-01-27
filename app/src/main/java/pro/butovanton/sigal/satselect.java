@@ -193,20 +193,6 @@ public class satselect extends Fragment {
         }
     }
 
-    private float conerplace(float g2, float v, float g1) {
-        g2 = (float) toRadians(g2);
-        g1 = (float) toRadians(g1);
-        v = (float) toRadians(v);
-        return (float) toDegrees(Math.atan((cos(g2-g1)*cos(v)-0.151)/sqrt(1-pow(cos(g2-g1),2)*pow(cos(v),2))));
-    }
-
-    private float azimuthsat(float g2, float v, float g1) {
-        g2 = (float) toRadians(g2);
-        g1 = (float) toRadians(g1);
-        v = (float) toRadians(v);
-        return (float) (180 + toDegrees(atan(tan(g2-g1)/sin(v))));
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.content.pm.PackageManager;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     satselect msatselect;
+
+    public static int longitude, land;
 
     private ViewPager viewPager;
     private TabsAdapter tabsAdapter;
@@ -79,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
             }
         });
 
-        fragmentManager = getSupportFragmentManager();
-        msatselect = new satselect();
+       fragmentManager = getSupportFragmentManager();
+       msatselect = new satselect();
 
   //      ArrayList<satellite> satelittes = new ArrayList<satellite>();
   //      satelittes.add(new satellite(R.drawable.item_212, "Спутниковый интернет SenSat 2 Вт","Скорость до 45 мб/с Оптимальный вариант для северных широт и коллективного доступа."));
@@ -100,10 +103,7 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == MY_REQUEST_LOCATION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // startCameraActivity(); // запускаем активность с камерой (ну или фрагмент)
-                location = getLocationWithCheckNetworkAndGPS(getApplicationContext());
-                if (location!=null)
-                    Log.d("DEBUG","Latitude="+location.getLatitude()+"Longitude="+location.getLongitude());
+                getlocation();
             }
         }
     }
@@ -114,13 +114,20 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_REQUEST_LOCATION);
-            }
-        } else {
-            location = getLocationWithCheckNetworkAndGPS(getApplicationContext());
-            if (location != null)
-                Log.d("DEBUG", "Latitude=" + location.getLatitude() + "Longitude=" + location.getLongitude());
-        }
+            } else getlocation();
+        } else getlocation();
+    }
 
+    void getlocation() {
+            location = getLocationWithCheckNetworkAndGPS(getApplicationContext());
+            if (location == null) {
+                longitude = 55;
+                land = 92;
+            } else {
+                longitude = (int) location.getLongitude();
+                land = (int) location.getLatitude();
+            }
+            Log.d("DEBUG", "Latitude=" + land + "Longitude=" + longitude);
     }
 
     @Override

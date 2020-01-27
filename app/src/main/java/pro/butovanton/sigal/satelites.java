@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class satelites extends Fragment implements satselect.OnFragmentInteractionListener {
 
     RecyclerView recyclerViewSat;
+    private static int s;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

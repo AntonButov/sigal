@@ -3,12 +3,12 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorEventListener2;
 import android.hardware.SensorManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
-import android.view.ViewDebug;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
@@ -29,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,7 +47,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
     private final int CAMERA2 = 1;
     private TextureView mTextureView = null;
     private ImageView imageLineGor,imageSat;
-    private TextView azimut, corner;
+    private TextView azimut, corner, name, conersat, azimutsat;
 
     private SensorManager sensorManager;
     private Sensor magnite;
@@ -66,7 +64,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
     private float Lx;
 
     private double conerplacesat  = 28.14;
-    private double azimuthsat = 16;
+    private double azimuthsatint = 16;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +81,11 @@ public class camera extends FragmentActivity implements SensorEventListener {
         setContentView(R.layout.activity_camera);
         azimut = findViewById(R.id.azim);
         corner = findViewById(R.id.conerpl);
-        mTextureView = findViewById(R.id.textureView);
+        mTextureView = findViewById(R.id.texture);
         imageLineGor = findViewById(R.id.imageLineGor);
+        name = findViewById(R.id.name);
+        azimutsat = findViewById(R.id.azimutsatv);
+        conersat = findViewById(R.id.conersattext);
         imageSat = findViewById(R.id.imageSat);
         mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
@@ -100,11 +101,15 @@ public class camera extends FragmentActivity implements SensorEventListener {
             Log.e("DEBUG", e.getMessage());
             e.printStackTrace();
         }
+        Intent intent = getIntent();
+        name.setText(intent.getStringExtra("name"));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        azimutsat.setText("1");
+        conersat.setText("2");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_REQUEST_CODE_FOR_CAMERA);
@@ -208,7 +213,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         timeold1 = event.timestamp;
                         dy = dY(coner,orientation[2]);
                         int d = (imageLineGor.getWidth() - getResources().getDisplayMetrics().widthPixels)/2;
-                        TranslateAnimation animationSatel = new TranslateAnimation(+ dX((float) rad(azimuthsat)) + dX((float) (azimuth + PI)), 0,- dY((float) rad(conerplacesat),0) + dY((float) (coner ),0),0);
+                        TranslateAnimation animationSatel = new TranslateAnimation(+ dX((float) rad(azimuthsatint)) + dX((float) (azimuth + PI)), 0,- dY((float) rad(conerplacesat),0) + dY((float) (coner ),0),0);
                         animationSatel.setDuration(4000);
                         TranslateAnimation animationGorgor = new TranslateAnimation(-d, 0, dy, 0);
                         Animation animationGorRot = new RotateAnimation(xos, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
