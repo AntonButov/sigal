@@ -1,24 +1,23 @@
 package pro.butovanton.sigal;
 
-import android.app.Activity;
+import android.Manifest;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.TextView;
+import android.content.pm.PackageManager;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.viewpager.widget.ViewPager;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements satselect.OnFragmentInteractionListener, ActionBar.TabListener {
 
@@ -33,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
     // Tabs title
     private String[] tabs = {"ТВ", "Интернет","Спутники"};
 
+    private final int MY_REQUEST_LOCATION = 115;
+    Location location;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
         // Initialization
         viewPager = (ViewPager)findViewById(R.id.pager);
         actionBar = getSupportActionBar();
+
         tabsAdapter = new TabsAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(tabsAdapter);
@@ -91,6 +94,32 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
+           }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == MY_REQUEST_LOCATION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // startCameraActivity(); // запускаем активность с камерой (ну или фрагмент)
+                location = getLocationWithCheckNetworkAndGPS(getApplicationContext());
+                if (location!=null)
+                    Log.d("DEBUG","Latitude="+location.getLatitude()+"Longitude="+location.getLongitude());
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_REQUEST_LOCATION);
+            }
+        } else {
+            location = getLocationWithCheckNetworkAndGPS(getApplicationContext());
+            if (location != null)
+                Log.d("DEBUG", "Latitude=" + location.getLatitude() + "Longitude=" + location.getLongitude());
+        }
 
     }
 
@@ -113,5 +142,43 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
+    }
+
+    public Location getLocationWithCheckNetworkAndGPS(Context mContext) {
+        LocationManager lm = (LocationManager)
+                mContext.getSystemService(Context.LOCATION_SERVICE);
+        assert lm != null;
+        boolean isGpsEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean isNetworkLocationEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        android.location.Location networkLoacation = null;
+        android.location.Location gpsLocation = null;
+        android.location.Location finalLoc = null;
+        if (isGpsEnabled)
+            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                return null;
+            }
+        gpsLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (isNetworkLocationEnabled)
+            networkLoacation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        if (gpsLocation != null && networkLoacation != null) {
+
+            //smaller the number more accurate result will
+            if (gpsLocation.getAccuracy() > networkLoacation.getAccuracy())
+                return finalLoc =networkLoacation;
+            else
+                return finalLoc = gpsLocation;
+
+        } else {
+
+            if (gpsLocation != null) {
+                return finalLoc = gpsLocation;
+            } else if (networkLoacation != null) {
+                return finalLoc = networkLoacation;
+            }
+        }
+        return finalLoc;
     }
 }
