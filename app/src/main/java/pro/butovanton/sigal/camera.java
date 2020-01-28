@@ -89,8 +89,8 @@ public class camera extends FragmentActivity implements SensorEventListener {
         imageSat = findViewById(R.id.imageSat);
    //    int x = getResources().getDisplayMetrics().widthPixels/2;
     //    int y = getResources().getDisplayMetrics().heightPixels/2;
- //       imageSat.setX(getResources().getDisplayMetrics().widthPixels/2);
-  //      imageSat.setY(getResources().getDisplayMetrics().heightPixels/2);
+       imageSat.setX(-imageSat.getWidth()/2);
+       imageSat.setY(-imageSat.getHeight()/2);
         mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
             // Получение списка камер с устройства
@@ -219,7 +219,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         timeold1 = event.timestamp;
                         dy = dY(coner,orientation[2]);
                         int d = (imageLineGor.getWidth() - getResources().getDisplayMetrics().widthPixels)/2;
-                        TranslateAnimation animationSatel = new TranslateAnimation( dX((float) (rad(azimuthsatint)-azimuth )), 0,- dY((float) rad(conerplacesat),0) + dY((float) (coner ),0),0);
+                        TranslateAnimation animationSatel = new TranslateAnimation( dX((float) (rad(azimuthsatint)-azimuth )), 0,-dY((float) (rad (conerplacesat)- coner ),0),0);
                         animationSatel.setDuration(4000);
                         TranslateAnimation animationGorgor = new TranslateAnimation(-d, 0, dy, 0);
                         Animation animationGorRot = new RotateAnimation(xos, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,

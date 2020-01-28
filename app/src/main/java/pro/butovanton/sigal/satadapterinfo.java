@@ -36,6 +36,8 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
     private ArrayList<satelliteinfo> satelitteinfos;
     private RecyclerView.OnItemTouchListener mListener;
 
+    Button satelittefinder;
+
     public satadapterinfo(ArrayList<satelliteinfo> satelitteinfos) {
         this.satelitteinfos = satelitteinfos;
     }
@@ -43,13 +45,15 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
     public class satViewHolder extends RecyclerView.ViewHolder  {
         TextView name;
         TextView description;
-        Button satelittefinder;
+
 
         public satViewHolder(@NonNull final View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             description = (TextView) itemView.findViewById(R.id.description);
             satelittefinder = (Button) itemView.findViewById(R.id.dost);
+           int i = getAdapterPosition();
+           Log.d("DEBUG","getadapterposition= "+i);
             satelittefinder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -66,7 +70,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
     //            @Override
    //             public void onClick(View v) {
     //                Log.d("DEBUG", "OnClickListener, Posittion="+getAdapterPosition());
-    //            }
+                }
    //         });
         }
 
@@ -89,7 +93,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
             v = (float) toRadians(v);
             return (float) (180 + toDegrees(atan(tan(g2-g1)/sin(v))));
         }
-    }
+
 
     @NonNull
     @Override
@@ -100,6 +104,8 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
 
     @Override
     public void onBindViewHolder(@NonNull satViewHolder holder, int position) {
+        Log.d("DEBUG", "position: "+position);
+             if (conerplace((float) MainActivity.longitude, (float) MainActivity.land, (float) satelitteinfos.get(position).getConer()) < 0) satelittefinder.setVisibility(View.GONE);
         holder.name.setText(satelitteinfos.get(position).getname());
         holder.description.setText(satelitteinfos.get(position).getdescription());
     }
