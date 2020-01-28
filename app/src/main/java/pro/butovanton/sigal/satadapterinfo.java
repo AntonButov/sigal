@@ -55,8 +55,8 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
                 public void onClick(View v) {
                                   Intent intent = new Intent(v.getContext(),camera.class);
                                   intent.putExtra("name",satelitteinfos.get(getAdapterPosition()).getname());
-                                  intent.putExtra("azimut", azimuthsat((float) MainActivity.longitude, (float) MainActivity.land, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
-                                  intent.putExtra("coner", conerplace((float) MainActivity.longitude, (float) MainActivity.land, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
+                                  intent.putExtra("azimut", (int)azimuthsat((float) MainActivity.longitude, (float) MainActivity.land, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
+                                  intent.putExtra("coner", (int)conerplace((float) MainActivity.longitude, (float) MainActivity.land, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
                                   intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                   v.getContext().startActivity(intent);
 
@@ -72,10 +72,15 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
 
         //где g1 - долгота спутника, g2 - долгота места приема, v - широта места приема.
         private float conerplace(float g2, float v, float g1) {
+        //    g1 = 36;
+       //     g2 = 37;
+       //     v =56;
             g2 = (float) toRadians(g2);
             g1 = (float) toRadians(g1);
             v = (float) toRadians(v);
-            return (float) toDegrees(Math.atan((cos(g2-g1)*cos(v)-0.151)/sqrt(1-pow(cos(g2-g1),2)*pow(cos(v),2))));
+            float c1= (float) (cos(g2-g1)*cos(v)-0.151);
+            float c2 = (float)(1-(cos(g2-g1)*cos(g2-g1)*cos(v)*cos(v)));
+            return (float) toDegrees(Math.atan(c1/sqrt(c2)));
         }
 
         private float azimuthsat(float g2, float v, float g1) {

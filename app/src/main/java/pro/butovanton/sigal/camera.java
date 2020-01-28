@@ -87,6 +87,10 @@ public class camera extends FragmentActivity implements SensorEventListener {
         azimutsat = findViewById(R.id.azimutsatv);
         conersat = findViewById(R.id.conersattext);
         imageSat = findViewById(R.id.imageSat);
+   //    int x = getResources().getDisplayMetrics().widthPixels/2;
+    //    int y = getResources().getDisplayMetrics().heightPixels/2;
+ //       imageSat.setX(getResources().getDisplayMetrics().widthPixels/2);
+  //      imageSat.setY(getResources().getDisplayMetrics().heightPixels/2);
         mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
             // Получение списка камер с устройства
@@ -103,13 +107,15 @@ public class camera extends FragmentActivity implements SensorEventListener {
         }
         Intent intent = getIntent();
         name.setText(intent.getStringExtra("name"));
+        azimuthsatint = intent.getIntExtra("azimut",20);
+        conerplacesat = intent.getIntExtra("coner", 30);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        azimutsat.setText("1");
-        conersat.setText("2");
+        azimutsat.setText("Азимут спутника: "+azimuthsatint);
+        conersat.setText("Угол места спутника: "+ conerplacesat);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_REQUEST_CODE_FOR_CAMERA);

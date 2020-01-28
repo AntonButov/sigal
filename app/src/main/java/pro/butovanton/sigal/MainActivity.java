@@ -121,8 +121,9 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
     void getlocation() {
             location = getLocationWithCheckNetworkAndGPS(getApplicationContext());
             if (location == null) {
-                longitude = 55;
-                land = 92;
+                land = 56;
+                longitude = 92;
+
             } else {
                 longitude = (int) location.getLongitude();
                 land = (int) location.getLatitude();
