@@ -219,7 +219,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         timeold1 = event.timestamp;
                         dy = dY(coner,orientation[2]);
                         int d = (imageLineGor.getWidth() - getResources().getDisplayMetrics().widthPixels)/2;
-                        TranslateAnimation animationSatel = new TranslateAnimation(+ dX((float) rad(azimuthsatint)) + dX((float) (azimuth + PI)), 0,- dY((float) rad(conerplacesat),0) + dY((float) (coner ),0),0);
+                        TranslateAnimation animationSatel = new TranslateAnimation( dX((float) (rad(azimuthsatint)-azimuth )), 0,- dY((float) rad(conerplacesat),0) + dY((float) (coner ),0),0);
                         animationSatel.setDuration(4000);
                         TranslateAnimation animationGorgor = new TranslateAnimation(-d, 0, dy, 0);
                         Animation animationGorRot = new RotateAnimation(xos, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
