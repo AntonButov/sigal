@@ -3,6 +3,7 @@ package pro.butovanton.sigal;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -125,9 +126,17 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
             startActivity(openlink);
         }
         if (id == R.id.navigation_dashboard) {
+            PackageInfo packageInfo = null;
+            try {
+                packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            String ver = packageInfo.versionName ;
             new MaterialAlertDialogBuilder(this)
-                    .setTitle("Title")
-                    .setMessage("Message")
+                    .setTitle("Версия программы")
+                    .setMessage(ver)
                     .setPositiveButton("Ok", null)
                     .show();
         }

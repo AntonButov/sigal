@@ -2,6 +2,7 @@ package pro.butovanton.sigal;
 
 import android.app.Application;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +37,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
     private ArrayList<satelliteinfo> satelitteinfos;
     private RecyclerView.OnItemTouchListener mListener;
 
-    Button satelittefinder;
+    Button satelittefinder, consultantcall;
 
     public satadapterinfo(ArrayList<satelliteinfo> satelitteinfos) {
         this.satelitteinfos = satelitteinfos;
@@ -52,8 +53,8 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
             name = (TextView) itemView.findViewById(R.id.name);
             description = (TextView) itemView.findViewById(R.id.description);
             satelittefinder = (Button) itemView.findViewById(R.id.dost);
-           int i = getAdapterPosition();
-           Log.d("DEBUG","getadapterposition= "+i);
+            int i = getAdapterPosition();
+            Log.d("DEBUG","getadapterposition= "+i);
             satelittefinder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -64,14 +65,17 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
                                   intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                   v.getContext().startActivity(intent);
 
+               }
+               });
+            consultantcall = (Button) itemView.findViewById(R.id.call);
+            consultantcall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:89632667744"));
+                    v.getContext().startActivity(intent);
                 }
             });
-      //      itemView.setOnClickListener(new View.OnClickListener() {
-    //            @Override
-   //             public void onClick(View v) {
-    //                Log.d("DEBUG", "OnClickListener, Posittion="+getAdapterPosition());
-                }
-   //         });
+            }
         }
 
         //где g1 - долгота спутника, g2 - долгота места приема, v - широта места приема.
