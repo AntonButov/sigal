@@ -23,6 +23,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 public class MainActivity extends AppCompatActivity implements satselect.OnFragmentInteractionListener, ActionBar.TabListener {
 
     FragmentManager fragmentManager;
@@ -121,6 +123,13 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
             Uri address = Uri.parse("http://www.сигал.com");
             Intent openlink = new Intent(Intent.ACTION_VIEW, address);
             startActivity(openlink);
+        }
+        if (id == R.id.navigation_dashboard) {
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle("Title")
+                    .setMessage("Message")
+                    .setPositiveButton("Ok", null)
+                    .show();
         }
             return true;
         }
