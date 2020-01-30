@@ -38,6 +38,7 @@ import java.util.List;
 import static android.view.View.GONE;
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
+import static java.lang.Math.atan;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.toDegrees;
@@ -71,6 +72,8 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
     private int conerplacesat  = 28;
     private int azimuthsatint = 16;
+
+    private int width,height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,10 +119,10 @@ public class camera extends FragmentActivity implements SensorEventListener {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        imageSat.setX((width-imageSat.getWidth())/2);
-        imageSat.setY((height-imageSat.getHeight())/2);
+         width = size.x;
+         height = size.y;
+   //     imageSat.setX((width-imageSat.getWidth())/2);
+   //     imageSat.setY((height-imageSat.getHeight())/2);
                 azimuthsatint = 10;
                 conerplacesat = 0;
     }
@@ -160,7 +163,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        final float alpha = 0.8f;
+        final float alpha = 0.1f;
         synchronized (this) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 mGravity[0] = alpha * mGravity[0] + (1 - alpha)
@@ -233,34 +236,29 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
                 // animation-----------------------------------------------------------------------
 
-                    if (event.timestamp-timeold1>440000000) {
+                    if (event.timestamp-timeold1>140000000) {
                         timeold1 = event.timestamp;
-                        x1 =(int)dX((float) (rad(azimuthsatint)-azimuth ));
-                        y1 = (int)-dY((float) (rad (conerplacesat)- coner ),0);
+                        x1 =  width/2 - imageSat.getWidth()/2 + (int)dX((float) (rad(azimuthsatint)-azimuth ));
+                        y1 = height/2 - imageSat.getHeight()/2 + (int)-dY((float) (rad (conerplacesat)- coner ),0);
                         imageSat.setX(x1);
                         imageSat.setY(y1);
 
-                        int d = -(imageLineGor.getWidth() - getResources().getDisplayMetrics().widthPixels)/2;
-                        imageLineGor.setX(d);
-                        dy = dY(coner,orientation[2]);
+                        int xG = -(imageLineGor.getWidth() - width)/2;
+                        imageLineGor.setX(xG);
+                        dy = height/2 + dY(coner,orientation[2]);
                         imageLineGor.setY(dy);
-                     //   TranslateAnimation animationGorgor = new TranslateAnimation(-d, 0, dy, 0);
                         Animation animationGorRot = new RotateAnimation(xos, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
-                        AnimationSet animationSet = new AnimationSet(true);
-                        animationSet.addAnimation(animationGorRot);
-                      //  animationSet.addAnimation(animationGorgor);
-                        animationSet.setFillAfter(true);
-                        animationSet.setDuration(2000);
-                       // imageLineGor.startAnimation(animationSet);
-
+                        animationGorRot.setDuration(4000);
+                        animationGorRot.setRepeatMode(Animation.REVERSE);
+                        imageLineGor.startAnimation(animationGorRot);
 
                         if (azimuthsatint - azimuthcon > 10 ) left.setVisibility(View.VISIBLE);
                         if (azimuthsatint - azimuthcon < - 10 ) {
-                            Animation animat180right = new RotateAnimation(180, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
-                            animat180right.setDuration(500);
-                            left.startAnimation(animat180right);
                             //right.setVisibility(View.VISIBLE);
                             }
+                        float dxx = azimuthsatint - azimuth;
+                        float dyy = conerplacesat - coner;
+                        float dalpha = (float) atan(dxx/dyy);
                     }
                 ///------------------------------------------------------------------------------------
             }
