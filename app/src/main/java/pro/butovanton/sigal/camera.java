@@ -121,10 +121,8 @@ public class camera extends FragmentActivity implements SensorEventListener {
         display.getSize(size);
          width = size.x;
          height = size.y;
-   //     imageSat.setX((width-imageSat.getWidth())/2);
-   //     imageSat.setY((height-imageSat.getHeight())/2);
-                azimuthsatint = 180;
-                conerplacesat = 0;
+//                azimuthsatint = 180;
+//                conerplacesat = 0;
     }
 
     @Override
@@ -223,11 +221,12 @@ public class camera extends FragmentActivity implements SensorEventListener {
         //        Log.d("DEBUG", "xos= "+xos);
        //         Log.d("DEBUG", "xor= "+toDegrees(xorR));
                 azimuth = (float) (azimuth - xorR*cos(coner));
+                if (coner <0) azimuth = (float) (azimuth - PI);
                 if (azimuth<0) {
                     //azimuth = -azimuth;
                     azimuth = (float) (azimuth + 2*PI);
                 }
-                if (coner <0) azimuth = (float) (azimuth - PI);
+
                 azimuthcon = (float) Math.toDegrees(azimuth);
                 azimut.setText(getString(R.string.azim)+ (int)azimuthcon);
                 corner.setText(getString(R.string.coner) + (int)conerplace);
@@ -240,7 +239,14 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         timeold1 = event.timestamp;
                         x1 =  width/2 - imageSat.getWidth()/2 + (int)dX((float) (rad(azimuthsatint)-azimuth ));
                         y1 = height/2 - imageSat.getHeight()/2 + (int)-dY((float) (rad (conerplacesat)- coner ),0);
-                        if ((azimuthcon > azimuthsatint + 90) && (azimuthcon < azimuthsatint + 180)) x1 = x1 + 1000;
+                        if (azimuthsatint - azimuthcon > 90) {
+                           // Log.d("DEBUG", "1");
+                            x1 = x1 + 1000;
+                        }
+                        if (azimuthcon - azimuthsatint > 90) {
+                           //  Log.d("DEBUG","2");
+                             x1 = x1 - 1000;
+                        }
                       //  if ((azimuthcon > azimuthsatint + 180) && (azimuthcon < azimuthsatint + 270)) x1 = x1 - 1000;
                         imageSat.setX(x1);
                         imageSat.setY(y1);
@@ -254,16 +260,12 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         animationGorRot.setRepeatMode(Animation.REVERSE);
                         imageLineGor.startAnimation(animationGorRot);
 
-                        if (azimuthsatint - azimuthcon > 10 ) left.setVisibility(View.VISIBLE);
-                        if (azimuthsatint - azimuthcon < - 10 ) {
-                            //right.setVisibility(View.VISIBLE);
-                            }
                         float dxx = x1 - width/2;
                         float dyy = y1 - height;
-                        Log.d("DEBUG","dxx="+dxx+" dyy="+dyy);
+                  //      Log.d("DEBUG","dxx="+dxx+" dyy="+dyy);
                         float dalpha = (float) toDegrees(atan(dyy/dxx));
                         if (x1 - width/2 < 0) dalpha = dalpha - 180;
-                        Log.d("DEBUG","dalpha="+dalpha);
+                  //      Log.d("DEBUG","dalpha="+dalpha);
                         Animation animatArrow = new RotateAnimation(dalpha, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
                         animatArrow.setDuration(5000);
                         left.startAnimation(animatArrow);
