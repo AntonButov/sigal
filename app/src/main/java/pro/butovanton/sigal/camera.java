@@ -256,9 +256,15 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         if (azimuthsatint - azimuthcon < - 10 ) {
                             //right.setVisibility(View.VISIBLE);
                             }
-                        float dxx = azimuthsatint - azimuth;
-                        float dyy = conerplacesat - coner;
-                        float dalpha = (float) atan(dxx/dyy);
+                        float dxx = x1 - width/2;
+                        float dyy = y1 - height;
+                        Log.d("DEBUG","dxx="+dxx+" dyy="+dyy);
+                        float dalpha = (float) toDegrees(atan(dyy/dxx));
+                        if (x1 - width/2 < 0) dalpha = dalpha - 180;
+                        Log.d("DEBUG","dalpha="+dalpha);
+                        Animation animatArrow = new RotateAnimation(dalpha, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
+                        animatArrow.setDuration(5000);
+                        left.startAnimation(animatArrow);
                     }
                 ///------------------------------------------------------------------------------------
             }
