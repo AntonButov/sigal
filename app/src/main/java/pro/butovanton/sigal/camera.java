@@ -123,7 +123,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
          height = size.y;
    //     imageSat.setX((width-imageSat.getWidth())/2);
    //     imageSat.setY((height-imageSat.getHeight())/2);
-                azimuthsatint = 10;
+                azimuthsatint = 180;
                 conerplacesat = 0;
     }
 
@@ -240,6 +240,8 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         timeold1 = event.timestamp;
                         x1 =  width/2 - imageSat.getWidth()/2 + (int)dX((float) (rad(azimuthsatint)-azimuth ));
                         y1 = height/2 - imageSat.getHeight()/2 + (int)-dY((float) (rad (conerplacesat)- coner ),0);
+                        if ((azimuthcon > azimuthsatint + 90) && (azimuthcon < azimuthsatint + 180)) x1 = x1 + 1000;
+                      //  if ((azimuthcon > azimuthsatint + 180) && (azimuthcon < azimuthsatint + 270)) x1 = x1 - 1000;
                         imageSat.setX(x1);
                         imageSat.setY(y1);
 
