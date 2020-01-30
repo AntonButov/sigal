@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -18,8 +19,11 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
@@ -31,6 +35,7 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.view.View.GONE;
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 import static java.lang.Math.cos;
@@ -46,7 +51,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
     private final int CAMERA1 = 0;
     private final int CAMERA2 = 1;
     private TextureView mTextureView = null;
-    private ImageView imageLineGor,imageSat;
+    private ImageView imageLineGor,imageSat,left;
     private TextView azimut, corner, name, conersat, azimutsat;
 
     private SensorManager sensorManager;
@@ -60,11 +65,12 @@ public class camera extends FragmentActivity implements SensorEventListener {
     float orientation[] = new float[3];
 
     private long timeold1 =0;
+    private float x0,y0,y1,x1,con0, con1;
 
     private float Lx;
 
-    private double conerplacesat  = 28.14;
-    private double azimuthsatint = 16;
+    private int conerplacesat  = 28;
+    private int azimuthsatint = 16;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,14 +89,11 @@ public class camera extends FragmentActivity implements SensorEventListener {
         corner = findViewById(R.id.conerpl);
         mTextureView = findViewById(R.id.texture);
         imageLineGor = findViewById(R.id.imageLineGor);
-        name = findViewById(R.id.name);
+            left = findViewById(R.id.left);
+         name = findViewById(R.id.name);
         azimutsat = findViewById(R.id.azimutsatv);
         conersat = findViewById(R.id.conersattext);
         imageSat = findViewById(R.id.imageSat);
-   //    int x = getResources().getDisplayMetrics().widthPixels/2;
-    //    int y = getResources().getDisplayMetrics().heightPixels/2;
-       imageSat.setX(-imageSat.getWidth()/2);
-       imageSat.setY(-imageSat.getHeight()/2);
         mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
             // Получение списка камер с устройства
@@ -109,6 +112,16 @@ public class camera extends FragmentActivity implements SensorEventListener {
         name.setText(intent.getStringExtra("name"));
         azimuthsatint = intent.getIntExtra("azimut",20);
         conerplacesat = intent.getIntExtra("coner", 30);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        imageSat.setX((width-imageSat.getWidth())/2);
+        imageSat.setY((height-imageSat.getHeight())/2);
+                azimuthsatint = 10;
+                conerplacesat = 0;
     }
 
     @Override
@@ -147,7 +160,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        final float alpha = 0.1f;
+        final float alpha = 0.8f;
         synchronized (this) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 mGravity[0] = alpha * mGravity[0] + (1 - alpha)
@@ -184,7 +197,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
                 azimuth = orientation[0]; // orientation
                 if (azimuth<0) {
                     azimuth = (float) (azimuth + 2*PI);
-                }
+               }
 
                // conerplace = (90+(int)Math.toDegrees(orientation[1]))%360; // orientation
                 xorR = orientation[2];
@@ -204,9 +217,14 @@ public class camera extends FragmentActivity implements SensorEventListener {
                 xos = (int) (xos * cos(orientation[1]));
                 if (xorR<=0) xorR = (float) (xorR + PI);
                    else xorR = (float) (xorR - PI);
-                Log.d("DEBUG", "xos= "+xos);
-                Log.d("DEBUG", "xor= "+toDegrees(xorR));
+        //        Log.d("DEBUG", "xos= "+xos);
+       //         Log.d("DEBUG", "xor= "+toDegrees(xorR));
                 azimuth = (float) (azimuth - xorR*cos(coner));
+                if (azimuth<0) {
+                    //azimuth = -azimuth;
+                    azimuth = (float) (azimuth + 2*PI);
+                }
+                if (coner <0) azimuth = (float) (azimuth - PI);
                 azimuthcon = (float) Math.toDegrees(azimuth);
                 azimut.setText(getString(R.string.azim)+ (int)azimuthcon);
                 corner.setText(getString(R.string.coner) + (int)conerplace);
@@ -215,22 +233,34 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
                 // animation-----------------------------------------------------------------------
 
-                    if (event.timestamp-timeold1>50000000) {
+                    if (event.timestamp-timeold1>440000000) {
                         timeold1 = event.timestamp;
+                        x1 =(int)dX((float) (rad(azimuthsatint)-azimuth ));
+                        y1 = (int)-dY((float) (rad (conerplacesat)- coner ),0);
+                        imageSat.setX(x1);
+                        imageSat.setY(y1);
+
+                        int d = -(imageLineGor.getWidth() - getResources().getDisplayMetrics().widthPixels)/2;
+                        imageLineGor.setX(d);
                         dy = dY(coner,orientation[2]);
-                        int d = (imageLineGor.getWidth() - getResources().getDisplayMetrics().widthPixels)/2;
-                        TranslateAnimation animationSatel = new TranslateAnimation( dX((float) (rad(azimuthsatint)-azimuth )), 0,-dY((float) (rad (conerplacesat)- coner ),0),0);
-                        animationSatel.setDuration(4000);
-                        TranslateAnimation animationGorgor = new TranslateAnimation(-d, 0, dy, 0);
-                        Animation animationGorRot = new RotateAnimation(xos, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-                                0.5f);
+                        imageLineGor.setY(dy);
+                     //   TranslateAnimation animationGorgor = new TranslateAnimation(-d, 0, dy, 0);
+                        Animation animationGorRot = new RotateAnimation(xos, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
                         AnimationSet animationSet = new AnimationSet(true);
                         animationSet.addAnimation(animationGorRot);
-                        animationSet.addAnimation(animationGorgor);
+                      //  animationSet.addAnimation(animationGorgor);
                         animationSet.setFillAfter(true);
-                        animationSet.setDuration(4000);
-                        imageLineGor.startAnimation(animationSet);
-                        imageSat.startAnimation(animationSatel);
+                        animationSet.setDuration(2000);
+                       // imageLineGor.startAnimation(animationSet);
+
+
+                        if (azimuthsatint - azimuthcon > 10 ) left.setVisibility(View.VISIBLE);
+                        if (azimuthsatint - azimuthcon < - 10 ) {
+                            Animation animat180right = new RotateAnimation(180, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
+                            animat180right.setDuration(500);
+                            left.startAnimation(animat180right);
+                            //right.setVisibility(View.VISIBLE);
+                            }
                     }
                 ///------------------------------------------------------------------------------------
             }
