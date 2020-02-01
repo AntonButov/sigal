@@ -16,15 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class TV extends Fragment implements satselect.OnFragmentInteractionListener {
+public class TV extends Fragment {
 
     RecyclerView recyclerView;
-    satselect msatselect;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        msatselect = new satselect();
+
     }
 
     @Override
@@ -41,12 +41,7 @@ public class TV extends Fragment implements satselect.OnFragmentInteractionListe
 
             @Override
             public void onClick(View child, int childPosition) {
-                Fragment satcelect = satselect.newInstance("TV",childPosition);
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fcontainer, satcelect);
-                fragmentTransaction.addToBackStack("satfragment");
-                fragmentTransaction.commit();
+
             }
         }));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -60,9 +55,5 @@ public class TV extends Fragment implements satselect.OnFragmentInteractionListe
         return view;
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }
 

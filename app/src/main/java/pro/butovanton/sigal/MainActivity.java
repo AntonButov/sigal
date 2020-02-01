@@ -26,11 +26,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-public class MainActivity extends AppCompatActivity implements satselect.OnFragmentInteractionListener, ActionBar.TabListener {
+public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    satselect msatselect;
 
     public static int longitude, land;
 
@@ -89,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
         });
 
        fragmentManager = getSupportFragmentManager();
-       msatselect = new satselect();
 
   //      ArrayList<satellite> satelittes = new ArrayList<satellite>();
   //      satelittes.add(new satellite(R.drawable.item_212, "Спутниковый интернет SenSat 2 Вт","Скорость до 45 мб/с Оптимальный вариант для северных широт и коллективного доступа."));
@@ -173,11 +171,6 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
                 land = (int) location.getLatitude();
             }
             Log.d("DEBUG", "Latitude=" + land + "Longitude=" + longitude);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        Log.d("DEBUG", "FragmentInteraction Uri:"+uri);
     }
 
     @Override

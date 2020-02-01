@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class satelites extends Fragment implements satselect.OnFragmentInteractionListener {
+public class satelites extends Fragment {
 
     RecyclerView recyclerViewSat;
     private static int s;
@@ -55,9 +55,5 @@ public class satelites extends Fragment implements satselect.OnFragmentInteracti
         return view;
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }
 
