@@ -120,9 +120,5 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
     public int getItemCount() {
         return satelitteinfos.size();
     }
-
-
-
-
 }
 
