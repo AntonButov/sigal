@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements satselect.OnFragm
     private ActionBar actionBar;
 
     // Tabs title
-    private String[] tabs = {"ТВ", "Интернет","Спутники"};
+    private String[] tabs = {"ТВ", "Спутники"};
 
     private final int MY_REQUEST_LOCATION = 115;
     Location location;

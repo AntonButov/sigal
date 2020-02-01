@@ -100,14 +100,14 @@ public class satselect extends Fragment {
         mname = view.findViewById(R.id.textname);
         mprice = view.findViewById(R.id.textPrice);
         mteTextView = view.findViewById(R.id.textView4);
-     //   fabfinder.setOnClickListener(new View.OnClickListener() {
-    //        @Override
-   //         public void onClick(View v) {
-  ////              Intent intent = new Intent(getContext(), camera.class);
-  ///              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    //            startActivity(intent);
- //           }
- //       });
+        fabfinder = view.findViewById(R.id.fab);
+        fabfinder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                   Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:89632667744"));
+                   v.getContext().startActivity(intent);
+                }
+            });
         detailsatsTV = new ArrayList();
         detailsatsTV.add(new detailsat(R.drawable.tricolorsmart,"Триколор двойной GS B532M (Сибирь)","7 500"+"₽","Комплект оборудования с цифровым приёмником GS B532M предназначен для просмотра спутниковых и онлайн каналов Триколор в формате стандартной и высокой (HD)(1) четкости. Приёмник оборудован двумя спутниковыми тюнерами, что позволяет просматривать телеканалы не только на одном телевизоре, но и на планшете, смартфоне, а также на втором телевизоре при условии подключения приёмника-клиента. Отличительной особенностью приёмника является встроенная память, объемом 8 ГБ. Для расширения возможностей телесмотрения рекомендуем подключить приёмник к сети Интернет и использовать внешний жёсткий диск объёмом от 64 ГБ, который Вы можете приобрести отдельно."));
         detailsatsTV.add(new detailsat(R.drawable.telekarta,"комплект спутникового ТВ Телекарта ( подписка на три года)","6 500"+"₽","HD-комплект спутникового телевидения «Телекарта» — это выбор прагматичных. При невысокой цене, оборудование «Телекарты» отвечает всем требованиям современного ТВ: доступ к сотням разнообразных каналов, высокая чёткость изображения, полностью русифицированное меню и электронная программа передач. Возможности спутникового приёмника “Телекарта” расширят ваше представление о телевидении, благодаря таким функциям, как управление эфиром (запись, перемотка и пауза), воспроизведение загруженных аудио, видеофайлов и изображений."));

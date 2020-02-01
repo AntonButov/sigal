@@ -22,18 +22,15 @@ public class TabsAdapter extends FragmentPagerAdapter implements ActionBar.TabLi
                 return new TV();
             case 1:
                 // Ios fragment
-                return new internet();
-            case 2:
-                // Ios fragment
                 return new satelites();
-        }
+         }
         return null;
     }
 
     @Override
     public int getCount() {
         // get item count - equal to number of tabs
-        return 3;
+        return 2;
     }
 
     @Override
