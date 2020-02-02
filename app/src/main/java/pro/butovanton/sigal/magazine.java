@@ -26,7 +26,7 @@ public class magazine extends Fragment implements OnBackPressedListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.tv, container, false);
+        View view = inflater.inflate(R.layout.magazine, container, false);
         mWebView = view.findViewById(R.id.activity_main_webview);
         mWebView.setWebViewClient(new WebViewClient());
         WebSettings webSettings = mWebView.getSettings();
