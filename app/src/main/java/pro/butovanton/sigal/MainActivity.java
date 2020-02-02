@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -41,12 +42,31 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     private ActionBar actionBar;
 
     // Tabs title
-    private String[] tabs = {"ТВ", "Спутники"};
+    private String[] tabs = {"Магазин", "Спутники"};
 
     private final int MY_REQUEST_LOCATION = 115;
     Location location;
 
     private WebView mWebView;
+
+    @Override
+    public void onBackPressed() {
+      //  super.onBackPressed();
+        Log.d("DEBUG", "onBackActivity");
+        FragmentManager fm = getSupportFragmentManager();
+        OnBackPressedListener backPressedListener = null;
+        for (Fragment fragment: fm.getFragments()) {
+            if (fragment instanceof  OnBackPressedListener) {
+                backPressedListener = (OnBackPressedListener) fragment;
+                break;
+            }
+        }
+
+        if (backPressedListener != null && backPressedListener.onBackPressed()) {}
+           else {
+             super.onBackPressed();
+          }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -13,7 +13,7 @@ import android.webkit.WebViewClient;
 
 import androidx.fragment.app.Fragment;
 
-public class magazine extends Fragment  {
+public class magazine extends Fragment implements OnBackPressedListener {
 
     private WebView mWebView;
 
@@ -37,6 +37,18 @@ public class magazine extends Fragment  {
         return view;
     }
 
-}
+    @Override
+    public boolean onBackPressed() {
+        Log.d("DEBUG","BackMagazine");
+        if(mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
+        } else {
+          //  super.onBackPressed();
+          return false;
+        }
+    }
+    }
+
 
 
