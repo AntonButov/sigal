@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         });
 
        fragmentManager = getSupportFragmentManager();
-
           }
 
     @Override

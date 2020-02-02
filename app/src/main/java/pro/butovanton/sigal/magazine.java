@@ -2,7 +2,6 @@ package pro.butovanton.sigal;
 
 
 import android.annotation.SuppressLint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,21 +12,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
-public class magazine extends Fragment {
+public class magazine extends Fragment  {
 
     private WebView mWebView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -39,13 +31,12 @@ public class magazine extends Fragment {
         mWebView.setWebViewClient(new WebViewClient());
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-
         // REMOTE RESOURCE
-        mWebView.loadUrl("http://www.google.com");
+        mWebView.loadUrl("http://www.сигал.com");
         mWebView.setWebViewClient(new MyWebViewClient());
-
         return view;
     }
 
 }
+
 
