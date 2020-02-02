@@ -13,6 +13,9 @@ import android.util.Log;
 import android.content.pm.PackageManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     private final int MY_REQUEST_LOCATION = 115;
     Location location;
+
+    private WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
