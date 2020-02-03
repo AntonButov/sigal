@@ -14,7 +14,7 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/image"
+
         android:text="Express-AM3 140°E"
         android:textSize="18dp" />
 
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/name"
         android:layout_marginTop="20dp"
-        android:layout_toRightOf="@+id/image"
+
         android:text="На этой позиции стоит спутник предназначений для покрытия дальнего востока России. Имеет Ku и C диапазоны. Идет вещание федеральных и региональных российских каналов, а также платные пакеты VIVA - Восточный Экспресс и канал Наш Футбол."
         android:textSize="10dp" />
 

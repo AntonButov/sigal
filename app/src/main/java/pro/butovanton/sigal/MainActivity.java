@@ -1,6 +1,7 @@
 package pro.butovanton.sigal;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -13,9 +14,11 @@ import android.util.Log;
 import android.content.pm.PackageManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -29,6 +32,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
 
@@ -49,23 +53,29 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     private WebView mWebView;
 
+    FloatingActionButton fab, fabcall, fabsend;
+    LinearLayout fabLayoutcall, fabLayoutsend;
+    View fabBGLayout;
+
+    boolean isFABOpen = false;
+
     @Override
     public void onBackPressed() {
-      //  super.onBackPressed();
+        //  super.onBackPressed();
         Log.d("DEBUG", "onBackActivity");
         FragmentManager fm = getSupportFragmentManager();
         OnBackPressedListener backPressedListener = null;
-        for (Fragment fragment: fm.getFragments()) {
-            if (fragment instanceof  OnBackPressedListener) {
+        for (Fragment fragment : fm.getFragments()) {
+            if (fragment instanceof OnBackPressedListener) {
                 backPressedListener = (OnBackPressedListener) fragment;
                 break;
             }
         }
 
-        if (backPressedListener != null && backPressedListener.onBackPressed()) {}
-           else {
-             super.onBackPressed();
-          }
+        if (backPressedListener != null && backPressedListener.onBackPressed()) {
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -73,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Initialization
-        viewPager = (ViewPager)findViewById(R.id.pager);
+        viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getSupportActionBar();
 
         tabsAdapter = new TabsAdapter(getSupportFragmentManager());
@@ -87,6 +97,74 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
         }
+
+        fabLayoutcall = (LinearLayout) findViewById(R.id.fabLayoutcall);
+        fabLayoutsend = (LinearLayout) findViewById(R.id.fabLayoutsend);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fabcall = (FloatingActionButton) findViewById(R.id.fabcall);
+        fabsend = (FloatingActionButton) findViewById(R.id.fabsend);
+
+        //fabBGLayout = findViewById(R.id.fabBGLayout);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isFABOpen) {
+                    showFABMenu();
+                } else {
+                    closeFABMenu();
+                }
+            }
+        });
+
+        fragmentManager = getSupportFragmentManager();
+        }
+
+    private void showFABMenu() {
+        isFABOpen = true;
+        fabLayoutcall.setVisibility(View.VISIBLE);
+        fabLayoutsend.setVisibility(View.VISIBLE);
+
+       // fabBGLayout.setVisibility(View.VISIBLE);
+        fab.animate().rotationBy(180);
+        fabLayoutcall.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fabLayoutsend.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
+     }
+
+    private void closeFABMenu() {
+        isFABOpen = false;
+      //  fabBGLayout.setVisibility(View.GONE);
+        fab.animate().rotation(0);
+        fabLayoutcall.animate().translationY(0);
+        fabLayoutsend.animate().translationY(0);
+
+        fabLayoutsend.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                if (!isFABOpen) {
+                    fabLayoutcall.setVisibility(View.GONE);
+                    fabLayoutsend.setVisibility(View.GONE);
+                }
+/*                if (fab.getRotation() != -180) {
+                    fab.setRotation(-180);
+                }*/
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
 
         // Swipe viewpager when respective page selected
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -112,7 +190,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
             }
         });
 
-       fragmentManager = getSupportFragmentManager();
+    //   fragmentManager = getSupportFragmentManager();
+
           }
 
     @Override
