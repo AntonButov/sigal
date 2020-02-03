@@ -43,8 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             app:fabSize="mini"
-            app:backgroundTint="@android:color/holo_orange_light"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
+            app:backgroundTint="@android:color/holo_green_dark"
+            app:srcCompat="@drawable/whatsapp" />
     </LinearLayout>
 
     <LinearLayout

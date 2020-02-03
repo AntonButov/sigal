@@ -103,7 +103,22 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fabcall = (FloatingActionButton) findViewById(R.id.fabcall);
         fabsend = (FloatingActionButton) findViewById(R.id.fabsend);
-
+        fabcall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:89632667744"));
+                v.getContext().startActivity(intent);
+            }
+        });
+        fabsend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("smsto:" + "89632667744");
+                Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
+                sendIntent.setPackage("com.whatsapp");
+                startActivity(sendIntent);
+            }
+        });
         //fabBGLayout = findViewById(R.id.fabBGLayout);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         fab.animate().rotation(0);
         fabLayoutcall.animate().translationY(0);
         fabLayoutsend.animate().translationY(0);
-
         fabLayoutsend.animate().translationY(0).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
