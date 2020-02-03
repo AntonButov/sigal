@@ -113,10 +113,16 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         fabsend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("smsto:" + "89632667744");
-                Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
-                sendIntent.setPackage("com.whatsapp");
-                startActivity(sendIntent);
+                if (appInstalledOrNot("com.whatsapp")) {
+                    Uri uri = Uri.parse("smsto:" + "89632667744");
+                    Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
+                    sendIntent.setPackage("com.whatsapp");
+                    startActivity(sendIntent);
+                }
+                else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Whatsapp не установлен.", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
         //fabBGLayout = findViewById(R.id.fabBGLayout);
@@ -134,6 +140,19 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         fragmentManager = getSupportFragmentManager();
         }
+
+    private boolean appInstalledOrNot(String uri) {
+        PackageManager pm = getPackageManager();
+        boolean app_installed;
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            app_installed = true;
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            app_installed = false;
+        }
+        return app_installed;
+    }
 
     private void showFABMenu() {
         isFABOpen = true;

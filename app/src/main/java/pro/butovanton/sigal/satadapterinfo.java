@@ -37,13 +37,13 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
     private ArrayList<satelliteinfo> satelitteinfos;
     private RecyclerView.OnItemTouchListener mListener;
 
-    Button satelittefinder, consultantcall;
+    Button satelittefinder;
 
     public satadapterinfo(ArrayList<satelliteinfo> satelitteinfos) {
         this.satelitteinfos = satelitteinfos;
     }
 
-    public class satViewHolder extends RecyclerView.ViewHolder  {
+    public class satViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView description;
 
@@ -54,29 +54,21 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
             description = (TextView) itemView.findViewById(R.id.description);
             satelittefinder = (Button) itemView.findViewById(R.id.dost);
             int i = getAdapterPosition();
-            Log.d("DEBUG","getadapterposition= "+i);
+            Log.d("DEBUG", "getadapterposition= " + i);
             satelittefinder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                                  Intent intent = new Intent(v.getContext(),camera.class);
-                                  intent.putExtra("name",satelitteinfos.get(getAdapterPosition()).getname());
-                                  intent.putExtra("azimut", (int)azimuthsat((float) MainActivity.longitude, (float) MainActivity.land, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
-                                  intent.putExtra("coner", (int)conerplace((float) MainActivity.longitude, (float) MainActivity.land, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
-                                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                  v.getContext().startActivity(intent);
-
-               }
-               });
-            consultantcall = (Button) itemView.findViewById(R.id.call);
-            consultantcall.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:89632667744"));
+                    Intent intent = new Intent(v.getContext(), camera.class);
+                    intent.putExtra("name", satelitteinfos.get(getAdapterPosition()).getname());
+                    intent.putExtra("azimut", (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.land, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
+                    intent.putExtra("coner", (int) conerplace((float) MainActivity.longitude, (float) MainActivity.land, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     v.getContext().startActivity(intent);
+
                 }
             });
-            }
         }
+    }
 
         //где g1 - долгота спутника, g2 - долгота места приема, v - широта места приема.
         private float conerplace(float g2, float v, float g1) {
