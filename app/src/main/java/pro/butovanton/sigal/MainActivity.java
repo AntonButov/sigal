@@ -85,13 +85,36 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         // Initialization
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getSupportActionBar();
-
         tabsAdapter = new TabsAdapter(getSupportFragmentManager());
-
         viewPager.setAdapter(tabsAdapter);
         /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);*/
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        // Swipe viewpager when respective page selected
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                actionBar.setSelectedNavigationItem(position);
+                Log.d("DEBUG","fragmentcount="+fragmentManager.getBackStackEntryCount());
+                // When changing the page make respected tab selected
+//                int count = fragmentManager.getBackStackEntryCount();
+//                while(count > 0){
+//                    fragmentManager.popBackStack();
+//                    count--;
+                //               }
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+                Log.d("DEBUG","scrolled");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+                Log.d("DEBUG","scrolledchang");
+            }
+        });
 
         // Adding Tabs
         for (String tab_name : tabs) {
@@ -167,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     private void closeFABMenu() {
         isFABOpen = false;
-      //  fabBGLayout.setVisibility(View.GONE);
+        //  fabBGLayout.setVisibility(View.GONE);
         fab.animate().rotation(0);
         fabLayoutcall.animate().translationY(0);
         fabLayoutsend.animate().translationY(0);
@@ -198,34 +221,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
             }
         });
-
-        // Swipe viewpager when respective page selected
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
-                Log.d("DEBUG","fragmentcount="+fragmentManager.getBackStackEntryCount());
-                // When changing the page make respected tab selected
-                int count = fragmentManager.getBackStackEntryCount();
-                while(count > 0){
-                    fragmentManager.popBackStack();
-                    count--;
-                }
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
-
-    //   fragmentManager = getSupportFragmentManager();
-
-          }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -300,7 +296,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         viewPager.setCurrentItem(tab.getPosition());
-
     }
 
     @Override
