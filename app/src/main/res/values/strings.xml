@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">сигал.com</string>
-    <string name="title_home">Перейти на сайт</string>
+    <string name="title_home">Изменить местоположение</string>
     <string name="title_dashboard">Версия программы</string>
 
 
@@ -9,4 +9,5 @@
     <string name="NoPermAver">Без этого разрешения работа с камерой не возможна.</string>
     <string name="coner">Угол места:</string>
     <string name="azim">Азимут:</string>
+    <string name="title_activity_changelocation">Укажите новое местоположение</string>
 </resources>

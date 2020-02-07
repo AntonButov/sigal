@@ -22,11 +22,10 @@
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/name"
-        android:layout_marginTop="20dp"
-
+        android:layout_below="@+id/danteny"
+        android:layout_marginTop="10dp"
         android:text="На этой позиции стоит спутник предназначений для покрытия дальнего востока России. Имеет Ku и C диапазоны. Идет вещание федеральных и региональных российских каналов, а также платные пакеты VIVA - Восточный Экспресс и канал Наш Футбол."
-        android:textSize="10dp" />
+        android:textSize="12dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/dost"
@@ -35,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/description"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="14dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="14dp"
         android:elevation="3dp"
         android:text="Проверить доступность"
@@ -47,5 +46,25 @@
         app:iconSize="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+    android:id="@+id/danteny"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/satinfivalue"
+    android:layout_alignParentStart="true"
+    android:layout_marginTop="10dp"
+    android:textSize="10dp"
+    android:text="Диаметр антены:   см." />
+
+    <TextView
+        android:id="@+id/satinfivalue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:textSize="10dp"
+        android:text="Азимут:     ,угол места:" />
 
 </RelativeLayout>

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,20 +38,23 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
     private ArrayList<satelliteinfo> satelitteinfos;
     private RecyclerView.OnItemTouchListener mListener;
 
-    Button satelittefinder;
-
-    public satadapterinfo(ArrayList<satelliteinfo> satelitteinfos) {
+     public satadapterinfo(ArrayList<satelliteinfo> satelitteinfos) {
         this.satelitteinfos = satelitteinfos;
     }
 
     public class satViewHolder extends RecyclerView.ViewHolder {
         TextView name;
+        TextView satinfo;
+        TextView diametr;
         TextView description;
+        Button satelittefinder;
 
 
         public satViewHolder(@NonNull final View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
+            satinfo = (TextView) itemView.findViewById(R.id.satinfivalue);
+            diametr = (TextView) itemView.findViewById(R.id.danteny);
             description = (TextView) itemView.findViewById(R.id.description);
             satelittefinder = (Button) itemView.findViewById(R.id.dost);
             int i = getAdapterPosition();
@@ -60,8 +64,8 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), camera.class);
                     intent.putExtra("name", satelitteinfos.get(getAdapterPosition()).getname());
-                    intent.putExtra("azimut", (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.land, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
-                    intent.putExtra("coner", (int) conerplace((float) MainActivity.longitude, (float) MainActivity.land, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
+                    intent.putExtra("azimut", (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
+                    intent.putExtra("coner", (int) conerplace((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     v.getContext().startActivity(intent);
 
@@ -101,12 +105,47 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
     @Override
     public void onBindViewHolder(@NonNull satViewHolder holder, int position) {
         Log.d("DEBUG", "position: "+position);
-             if (conerplace((float) MainActivity.longitude, (float) MainActivity.land, (float) satelitteinfos.get(position).getConer()) < 0) satelittefinder.setVisibility(View.GONE);
-        holder.name.setText(satelitteinfos.get(position).getname());
-        holder.description.setText(satelitteinfos.get(position).getdescription());
+  //      int coner=  (int) conerplace((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
+   //     if (coner < 0) holder.satelittefinder.setVisibility(View.GONE);
+  //      else holder.satelittefinder.setVisibility(View.VISIBLE);
     }
 
+    public String getdiametr(int coner) {
+        String diametr = "";
+       if (coner < 0) diametr = "-";
+           else if (coner < 10) diametr = "120";
+           else if (coner < 15) diametr = "100";
+           else if (coner < 20) diametr = "90";
+           else if (coner < 25) diametr = "80";
+           else if (coner < 90) diametr = "70";
+       return diametr;
+    }
 
+    @Override
+    public void onViewAttachedToWindow(@NonNull satViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        Log.d("DEBUG","attache"+"holder="+holder.toString());
+        holder.name.setText(satelitteinfos.get(holder.getAdapterPosition()).getname());
+        holder.description.setText(satelitteinfos.get(holder.getAdapterPosition()).getdescription());
+        int azimut = (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
+        int coner=  (int) conerplace((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
+        getdiametr(coner);
+        holder.satinfo.setText("Азимут: " + azimut + " , угол места: " + coner+ "°");
+        holder.diametr.setText("Диаметр антены: " + getdiametr(coner) + " см.");
+        if (coner < 0) holder.satelittefinder.setVisibility(View.GONE);
+        else holder.satelittefinder.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull satViewHolder holder) {
+        super.onViewRecycled(holder);
+        Log.d("DEBUG","onViewRecicled");
+//        if (holder.getAdapterPosition() != -1) {
+//            int coner = (int) conerplace((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
+         //   satelittefinder.setVisibility(View.GONE);
+
+        //}
+    }
 
     @Override
     public int getItemCount() {

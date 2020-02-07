@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 29
@@ -8,8 +9,8 @@ android {
         applicationId "pro.butovanton.sigal"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 4
-        versionName "4.0"
+        versionCode 6
+        versionName "4.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -35,6 +36,13 @@ android {
             // but continue the build even when errors are found:
             abortOnError false
         }
+
+        buildTypes {
+            debug {
+                ext.enableCrashlytics = false
+                // …
+            }
+        }
     }
 }
 
@@ -48,6 +56,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-core:17.2.2'
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -57,5 +67,7 @@ dependencies {
     implementation "androidx.camera:camera-camera2:${camerax_version}"
 
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
 
 }
+

@@ -3,6 +3,7 @@ package pro.butovanton.sigal;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class satelites extends Fragment {
 
     RecyclerView recyclerViewSat;
+    satadapterinfo msatadapter;
     private static int s;
 
     @Override
@@ -52,10 +54,16 @@ public class satelites extends Fragment {
         satelitteinfos.add(new satelliteinfo("ABS 1 /1A /1B, 75° в.д.","Популярная среди русскоговорящих зрителей спутниковая позиция. Много российских каналов в открытом виде, а также каналы платного российского оператора \"МТС-ТВ\". Зона покрытия почти вся территория Евразии. Вещает только в Ku диапазоне.",75));
         satelitteinfos.add(new satelliteinfo("ЯМАЛ 201, 90° в.д.","Один и популярных российских спутников который вещает довольно хороший пакет российских федеральных телеканалов в открытом виде (ТНТ, Перец, РЕН-ТВ, Домашний, Россия2, Россия24, НТВ, Звезда, ТВ3, СТС и тд...). Несколько каналов из Туркмении и Казахстана. Охватывает почти всю территорию России и страны СНГ. Диапазоны С и Ku.",90));
         satelitteinfos.add(new satelliteinfo("ЯМАЛ-601 KA-ДИАПАЗОН, 49° в.д.","Территория предоставления услуг связи в Ka-диапазоне (спутник Ямал-601) - европейская часть России, включая Калининградскую область, Западную Сибирь, Иркутск и Красноярск. Согласно заявлению генерального директора ГКС Дмитрия Севастьянова, на спутнике “Ямал-601” планируется задействовать до 40 транспондеров Ка-диапазона.\n",49));
-        satadapterinfo msatadapter = new satadapterinfo(satelitteinfos);
+        msatadapter = new satadapterinfo(satelitteinfos);
         recyclerViewSat.setAdapter(msatadapter);
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("DEBUG", "Resume");
+     //   msatadapter.notifyDataSetChanged();
+    }
 }
 

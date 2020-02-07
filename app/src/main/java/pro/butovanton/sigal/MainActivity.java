@@ -33,13 +33,18 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
+import static androidx.camera.core.CameraX.getContext;
 
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-    public static int longitude, land;
+    public static int longitude, lantitude;
 
     private ViewPager viewPager;
     private TabsAdapter tabsAdapter;
@@ -58,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     View fabBGLayout;
 
     boolean isFABOpen = false;
+
+    String ver;
 
     @Override
     public void onBackPressed() {
@@ -83,6 +90,22 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Initialization
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        ver = packageInfo.versionName ;
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setUserProperty("sigal", "sigal");
+        Bundle bundle = new Bundle();
+        bundle.putString("Api", String.valueOf(Build.VERSION.SDK_INT));
+        bundle.putString("Ver", ver);
+
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundle);
+
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getSupportActionBar();
         tabsAdapter = new TabsAdapter(getSupportFragmentManager());
@@ -96,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
-                Log.d("DEBUG","fragmentcount="+fragmentManager.getBackStackEntryCount());
+ //               Log.d("DEBUG","fragmentcount="+fragmentManager.getBackStackEntryCount());
                 // When changing the page make respected tab selected
 //                int count = fragmentManager.getBackStackEntryCount();
 //                while(count > 0){
@@ -107,12 +130,12 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
-                Log.d("DEBUG","scrolled");
+     //           Log.d("DEBUG","scrolled");
             }
 
             @Override
             public void onPageScrollStateChanged(int arg0) {
-                Log.d("DEBUG","scrolledchang");
+       //         Log.d("DEBUG","scrolledchang");
             }
         });
 
@@ -239,19 +262,11 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.navigation_home) {
-            Uri address = Uri.parse("http://www.сигал.com");
-            Intent openlink = new Intent(Intent.ACTION_VIEW, address);
-            startActivity(openlink);
+            Intent intent = new Intent(this, changelocation.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
         if (id == R.id.navigation_dashboard) {
-            PackageInfo packageInfo = null;
-            try {
-                packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            String ver = packageInfo.versionName ;
             new MaterialAlertDialogBuilder(this)
                     .setTitle("Версия программы")
                     .setMessage(ver)
@@ -276,21 +291,21 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_REQUEST_LOCATION);
-            } else getlocation();
-        } else getlocation();
+            } //else ;//getlocation();
+        }//else //getlocation();
     }
 
     void getlocation() {
             location = getLocationWithCheckNetworkAndGPS(getApplicationContext());
             if (location == null) {
-                land = 56;
+                lantitude = 56;
                 longitude = 92;
 
             } else {
                 longitude = (int) location.getLongitude();
-                land = (int) location.getLatitude();
+                lantitude = (int) location.getLatitude();
             }
-            Log.d("DEBUG", "Latitude=" + land + "Longitude=" + longitude);
+            Log.d("DEBUG", "Latitude=" + lantitude + "Longitude=" + longitude);
     }
 
     @Override
