@@ -44,8 +44,8 @@ public class changelocation extends FragmentActivity implements OnMapReadyCallba
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setAllGesturesEnabled(true);
         uiSettings.setCompassEnabled(true);
-        uiSettings.setMyLocationButtonEnabled(true);
-        mMap.setMyLocationEnabled(true);
+        //uiSettings.setMyLocationButtonEnabled(true);
+       // mMap.setMyLocationEnabled(true);
         uiSettings.setZoomControlsEnabled(true);
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override

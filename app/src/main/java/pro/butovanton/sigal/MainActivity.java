@@ -34,12 +34,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crashlytics.core.CrashlyticsCore;
 
 import static androidx.camera.core.CameraX.getContext;
 
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
 
-    private FirebaseAnalytics mFirebaseAnalytics;
+    public static FirebaseAnalytics mFirebaseAnalytics;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -98,12 +99,12 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         }
 
         ver = packageInfo.versionName ;
+
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAnalytics.setUserProperty("sigal", "sigal");
         Bundle bundle = new Bundle();
-        bundle.putString("Api", String.valueOf(Build.VERSION.SDK_INT));
-        bundle.putString("Ver", ver);
-
+        bundle.putString("api", String.valueOf(Build.VERSION.SDK_INT));
+        bundle.putString("ver", ver);
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundle);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -115,17 +116,9 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         // Swipe viewpager when respective page selected
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
- //               Log.d("DEBUG","fragmentcount="+fragmentManager.getBackStackEntryCount());
-                // When changing the page make respected tab selected
-//                int count = fragmentManager.getBackStackEntryCount();
-//                while(count > 0){
-//                    fragmentManager.popBackStack();
-//                    count--;
-                //               }
             }
 
             @Override
@@ -185,7 +178,12 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         });
 
         fragmentManager = getSupportFragmentManager();
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                getlocation();        }
+        else
+        getlocation();
+    }
 
     private boolean appInstalledOrNot(String uri) {
         PackageManager pm = getPackageManager();
@@ -291,8 +289,9 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_REQUEST_LOCATION);
-            } //else ;//getlocation();
-        }//else //getlocation();
+            }// else getlocation();
+        }
+       // else getlocation();
     }
 
     void getlocation() {

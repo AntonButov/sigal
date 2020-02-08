@@ -58,7 +58,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
             description = (TextView) itemView.findViewById(R.id.description);
             satelittefinder = (Button) itemView.findViewById(R.id.dost);
             int i = getAdapterPosition();
-            Log.d("DEBUG", "getadapterposition= " + i);
+         //   Log.d("DEBUG", "getadapterposition= " + i);
             satelittefinder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -104,7 +104,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
 
     @Override
     public void onBindViewHolder(@NonNull satViewHolder holder, int position) {
-        Log.d("DEBUG", "position: "+position);
+    //    Log.d("DEBUG", "position: "+position);
   //      int coner=  (int) conerplace((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
    //     if (coner < 0) holder.satelittefinder.setVisibility(View.GONE);
   //      else holder.satelittefinder.setVisibility(View.VISIBLE);
@@ -124,7 +124,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
     @Override
     public void onViewAttachedToWindow(@NonNull satViewHolder holder) {
         super.onViewAttachedToWindow(holder);
-        Log.d("DEBUG","attache"+"holder="+holder.toString());
+    //    Log.d("DEBUG","attache"+"holder="+holder.toString());
         holder.name.setText(satelitteinfos.get(holder.getAdapterPosition()).getname());
         holder.description.setText(satelitteinfos.get(holder.getAdapterPosition()).getdescription());
         int azimut = (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
@@ -139,7 +139,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
     @Override
     public void onViewRecycled(@NonNull satViewHolder holder) {
         super.onViewRecycled(holder);
-        Log.d("DEBUG","onViewRecicled");
+    //    Log.d("DEBUG","onViewRecicled");
 //        if (holder.getAdapterPosition() != -1) {
 //            int coner = (int) conerplace((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
          //   satelittefinder.setVisibility(View.GONE);

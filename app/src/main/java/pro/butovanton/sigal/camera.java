@@ -161,14 +161,15 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        final float alpha = 0.1f;
+        final float alphagravity = 0.4f;
+        final float alphageomagnetic = 0.1f;
         synchronized (this) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                mGravity[0] = alpha * mGravity[0] + (1 - alpha)
+                mGravity[0] = alphagravity * mGravity[0] + (1 - alphagravity)
                         * event.values[0];
-                mGravity[1] = alpha * mGravity[1] + (1 - alpha)
+                mGravity[1] = alphagravity * mGravity[1] + (1 -alphagravity)
                         * event.values[1];
-                mGravity[2] = alpha * mGravity[2] + (1 - alpha)
+                mGravity[2] = alphagravity * mGravity[2] + (1 - alphagravity)
                         * event.values[2];
                 // mGravity = event.values;
 
@@ -178,11 +179,11 @@ public class camera extends FragmentActivity implements SensorEventListener {
             if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
                 // mGeomagnetic = event.values;
 
-                mGeomagnetic[0] = alpha * mGeomagnetic[0] + (1 - alpha)
+                mGeomagnetic[0] = alphageomagnetic * mGeomagnetic[0] + (1 - alphageomagnetic)
                         * event.values[0];
-                mGeomagnetic[1] = alpha * mGeomagnetic[1] + (1 - alpha)
+                mGeomagnetic[1] = alphageomagnetic * mGeomagnetic[1] + (1 - alphageomagnetic)
                         * event.values[1];
-                mGeomagnetic[2] = alpha * mGeomagnetic[2] + (1 - alpha)
+                mGeomagnetic[2] = alphageomagnetic * mGeomagnetic[2] + (1 - alphageomagnetic)
                         * event.values[2];
                 // Log.e(TAG, Float.toString(event.values[0]));
 
@@ -218,8 +219,8 @@ public class camera extends FragmentActivity implements SensorEventListener {
                 xos = (int) (xos * cos(orientation[1]));
                 if (xorR<=0) xorR = (float) (xorR + PI);
                    else xorR = (float) (xorR - PI);
-        //        Log.d("DEBUG", "xos= "+xos);
-       //         Log.d("DEBUG", "xor= "+toDegrees(xorR));
+                Log.d("DEBUG", "xos= "+(int)xos+" xor= "+(int)toDegrees(xorR));
+                //Log.d("DEBUG", "xor= "+toDegrees(xorR));
                 azimuth = (float) (azimuth - xorR*cos(coner));
                 if (coner <0) azimuth = (float) (azimuth - PI);
                 if (azimuth<0) {

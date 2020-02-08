@@ -62,7 +62,7 @@ public class satelites extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("DEBUG", "Resume");
+     //   Log.d("DEBUG", "Resume");
      //   msatadapter.notifyDataSetChanged();
     }
 }
