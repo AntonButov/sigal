@@ -68,7 +68,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
     private long timeold1 =0;
     private float x0,y0,y1,x1,con0, con1;
 
-    private float Lx;
+    private float Lx,Ly;
 
     private int conerplacesat  = 28;
     private int azimuthsatint = 16;
@@ -78,16 +78,19 @@ public class camera extends FragmentActivity implements SensorEventListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Lx = getResources().getDisplayMetrics().heightPixels;// (float) (sin(Math.PI/4)/ 680/2);
+        setContentView(R.layout.activity_camera);
+
+        Lx = getResources().getDisplayMetrics().widthPixels;//
+        Ly = getResources().getDisplayMetrics().heightPixels;// (float) (sin(Math.PI/4)/ 680/2);
+
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         List<Sensor> listSensor = sensorManager.getSensorList(Sensor.TYPE_ALL);
-       // List<String> listSensorType = new ArrayList<>();
         for (int i = 0; i < listSensor.size(); i++) {
-            Log.d("DEBUG",listSensor.get(i).getName());
+            Log.d( "DEBUG",listSensor.get(i).getName());
         }
         magnite = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         gsensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        setContentView(R.layout.activity_camera);
+
         azimut = findViewById(R.id.azim);
         corner = findViewById(R.id.conerpl);
         mTextureView = findViewById(R.id.texture);
@@ -161,8 +164,8 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        final float alphagravity = 0.4f;
-        final float alphageomagnetic = 0.1f;
+        final float alphagravity = 0.97f;
+        final float alphageomagnetic = 0.0001f;
         synchronized (this) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 mGravity[0] = alphagravity * mGravity[0] + (1 - alphagravity)
@@ -219,7 +222,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
                 xos = (int) (xos * cos(orientation[1]));
                 if (xorR<=0) xorR = (float) (xorR + PI);
                    else xorR = (float) (xorR - PI);
-                Log.d("DEBUG", "xos= "+(int)xos+" xor= "+(int)toDegrees(xorR));
+
                 //Log.d("DEBUG", "xor= "+toDegrees(xorR));
                 azimuth = (float) (azimuth - xorR*cos(coner));
                 if (coner <0) azimuth = (float) (azimuth - PI);
@@ -229,26 +232,22 @@ public class camera extends FragmentActivity implements SensorEventListener {
                 }
 
                 azimuthcon = (float) Math.toDegrees(azimuth);
-                azimut.setText(getString(R.string.azim)+ (int)azimuthcon);
-                corner.setText(getString(R.string.coner) + (int)conerplace);
-               // Log.d("DEBUG", "azimut= "+azimuth+" "+conerplace);
-               // Log.d("DEBUG", "azimutfix= "+azimuthfix+" "+conerplacefix);
 
                 // animation-----------------------------------------------------------------------
 
                     if (event.timestamp-timeold1>140000000) {
                         timeold1 = event.timestamp;
+                            azimut.setText(getString(R.string.azim)+ (int)azimuthcon);
+                            corner.setText(getString(R.string.coner) + (int)conerplace);
                         x1 =  width/2 - imageSat.getWidth()/2 + (int)dX((float) (rad(azimuthsatint)-azimuth ));
                         y1 = height/2 - imageSat.getHeight()/2 + (int)-dY((float) (rad (conerplacesat)- coner ),0);
                         if (azimuthsatint - azimuthcon > 90) {
-                           // Log.d("DEBUG", "1");
-                            x1 = x1 + 1000;
+                            x1 = x1 + 2000;
                         }
                         if (azimuthcon - azimuthsatint > 90) {
-                           //  Log.d("DEBUG","2");
-                             x1 = x1 - 1000;
+                             x1 = x1 - 2000;
                         }
-                      //  if ((azimuthcon > azimuthsatint + 180) && (azimuthcon < azimuthsatint + 270)) x1 = x1 - 1000;
+
                         imageSat.setX(x1);
                         imageSat.setY(y1);
 
@@ -263,13 +262,13 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
                         float dxx = x1 - width/2;
                         float dyy = y1 - height;
-                  //      Log.d("DEBUG","dxx="+dxx+" dyy="+dyy);
                         float dalpha = (float) toDegrees(atan(dyy/dxx));
                         if (x1 - width/2 < 0) dalpha = dalpha - 180;
-                  //      Log.d("DEBUG","dalpha="+dalpha);
                         Animation animatArrow = new RotateAnimation(dalpha, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
                         animatArrow.setDuration(5000);
                         left.startAnimation(animatArrow);
+
+                      //  Log.d("DEBUG", "azimut="+(int)azimuthcon+" xos= "+(int)xos+" coner= "+(int)conerplace);
                     }
                 ///------------------------------------------------------------------------------------
             }
@@ -282,7 +281,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
     }
 
     private float dY(float coner, float xos){
-    return (float) (Lx*sin(coner)*abs(cos(xos)));
+    return (float) (Ly*sin(coner)*abs(cos(xos)));
     }
 
     private double rad(double coner) {

@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         fragmentManager = getSupportFragmentManager();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
                 getlocation();        }
         else
         getlocation();
