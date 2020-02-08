@@ -153,10 +153,20 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
             @Override
             public void onClick(View v) {
                 if (appInstalledOrNot("com.whatsapp")) {
-                    Uri uri = Uri.parse("smsto:" + "89632667744");
-                    Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
-                    sendIntent.setPackage("com.whatsapp");
+                    Uri uri = Uri.parse("https://api.whatsapp.com/send?phone=7963266774490ppppppppp");
+                    Intent sendIntent = new Intent(Intent.ACTION_VIEW, uri);
+          //          sendIntent.setPackage("com.whatsapp");
                     startActivity(sendIntent);
+       //             Uri uri = Uri.parse("smsto:" + "89632667745");
+       //             Intent waIntent = new Intent(Intent.ACTION_SEND, uri);
+       //             waIntent.setType("text/plain");
+         //           String text = "YOUR TEXT HERE";
+         //           waIntent.setPackage("com.whatsapp");
+               //     if (waIntent != null) {
+              ///          waIntent.putExtra(Intent.EXTRA_TEXT, text);
+             //           startActivity(Intent.createChooser(waIntent, "Share with"));
+             //           }
+                       // else { Toast.makeText(this, "WhatsApp not Installed", Toast.LENGTH_SHORT) .show(); }
                 }
                 else {
                     Toast toast = Toast.makeText(getApplicationContext(), "Whatsapp не установлен.", Toast.LENGTH_SHORT);
