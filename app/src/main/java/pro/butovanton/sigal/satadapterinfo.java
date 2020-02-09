@@ -131,7 +131,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
         int coner=  (int) conerplace((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
         getdiametr(coner);
         holder.satinfo.setText("Азимут: " + azimut + " , угол места: " + coner+ "°");
-        holder.diametr.setText("Диаметр антены: " + getdiametr(coner) + " см.");
+        holder.diametr.setText("Диаметр антенны: " + getdiametr(coner) + " см.");
         if (coner < 0) holder.satelittefinder.setVisibility(View.GONE);
         else holder.satelittefinder.setVisibility(View.VISIBLE);
     }

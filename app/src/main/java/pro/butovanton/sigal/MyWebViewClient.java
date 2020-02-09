@@ -38,7 +38,6 @@ class MyWebViewClient extends WebViewClient {
         long millis = date.getTime();
         bundle.putLong(FirebaseAnalytics.Param.VALUE,millis);
         MainActivity.mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_END, bundle);
-
     }
 
     @Override

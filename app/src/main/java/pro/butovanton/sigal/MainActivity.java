@@ -59,9 +59,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     private WebView mWebView;
 
-    FloatingActionButton fab, fabcall, fabsend;
-    LinearLayout fabLayoutcall, fabLayoutsend;
-    View fabBGLayout;
+    FloatingActionButton fab, fabcall, fabsendwats, fabsendviber;
+    LinearLayout fabLayoutcall, fabLayoutsendwats, fabLayoutsendviber;
 
     boolean isFABOpen = false;
 
@@ -138,10 +137,11 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         }
 
         fabLayoutcall = (LinearLayout) findViewById(R.id.fabLayoutcall);
-        fabLayoutsend = (LinearLayout) findViewById(R.id.fabLayoutsend);
+        fabLayoutsendwats = (LinearLayout) findViewById(R.id.fabLayoutsendwats);
+        fabLayoutsendviber = (LinearLayout) findViewById(R.id.fabLayoutsendviber);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fabcall = (FloatingActionButton) findViewById(R.id.fabcall);
-        fabsend = (FloatingActionButton) findViewById(R.id.fabsend);
+        fabsendwats = (FloatingActionButton) findViewById(R.id.fabsendwats);
         fabcall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,24 +149,13 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                 v.getContext().startActivity(intent);
             }
         });
-        fabsend.setOnClickListener(new View.OnClickListener() {
+        fabsendwats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (appInstalledOrNot("com.whatsapp")) {
-                    Uri uri = Uri.parse("https://api.whatsapp.com/send?phone=7963266774490ppppppppp");
-                    Intent sendIntent = new Intent(Intent.ACTION_VIEW, uri);
-          //          sendIntent.setPackage("com.whatsapp");
-                    startActivity(sendIntent);
-       //             Uri uri = Uri.parse("smsto:" + "89632667745");
-       //             Intent waIntent = new Intent(Intent.ACTION_SEND, uri);
-       //             waIntent.setType("text/plain");
-         //           String text = "YOUR TEXT HERE";
-         //           waIntent.setPackage("com.whatsapp");
-               //     if (waIntent != null) {
-              ///          waIntent.putExtra(Intent.EXTRA_TEXT, text);
-             //           startActivity(Intent.createChooser(waIntent, "Share with"));
-             //           }
-                       // else { Toast.makeText(this, "WhatsApp not Installed", Toast.LENGTH_SHORT) .show(); }
+                   Uri uri = Uri.parse("https://api.whatsapp.com/send?phone=79632667744");
+                   Intent sendIntent = new Intent(Intent.ACTION_VIEW, uri);
+                   startActivity(sendIntent);
                 }
                 else {
                     Toast toast = Toast.makeText(getApplicationContext(), "Whatsapp не установлен.", Toast.LENGTH_SHORT);
@@ -174,7 +163,20 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                 }
             }
         });
-        //fabBGLayout = findViewById(R.id.fabBGLayout);
+        fabsendviber = (FloatingActionButton) findViewById(R.id.fabsendviber);
+        fabsendviber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (appInstalledOrNot("com.viber.voip")) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("viber://add?number=79632667744")));
+                }
+                else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Viber не установлен.", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,12 +213,14 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     private void showFABMenu() {
         isFABOpen = true;
         fabLayoutcall.setVisibility(View.VISIBLE);
-        fabLayoutsend.setVisibility(View.VISIBLE);
+        fabLayoutsendwats.setVisibility(View.VISIBLE);
+        fabLayoutsendviber.setVisibility(View.VISIBLE);
 
        // fabBGLayout.setVisibility(View.VISIBLE);
         fab.animate().rotationBy(180);
         fabLayoutcall.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        fabLayoutsend.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
+        fabLayoutsendwats.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
+        fabLayoutsendviber.animate().translationY(-getResources().getDimension(R.dimen.standard_145));
      }
 
     private void closeFABMenu() {
@@ -224,8 +228,9 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         //  fabBGLayout.setVisibility(View.GONE);
         fab.animate().rotation(0);
         fabLayoutcall.animate().translationY(0);
-        fabLayoutsend.animate().translationY(0);
-        fabLayoutsend.animate().translationY(0).setListener(new Animator.AnimatorListener() {
+        fabLayoutsendwats.animate().translationY(0);
+        fabLayoutsendviber.animate().translationY(0);
+        fabLayoutsendwats.animate().translationY(0).setListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
 
@@ -235,7 +240,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
             public void onAnimationEnd(Animator animator) {
                 if (!isFABOpen) {
                     fabLayoutcall.setVisibility(View.GONE);
-                    fabLayoutsend.setVisibility(View.GONE);
+                    fabLayoutsendwats.setVisibility(View.GONE);
+                    fabLayoutsendviber.setVisibility(View.GONE);
                 }
 /*                if (fab.getRotation() != -180) {
                     fab.setRotation(-180);

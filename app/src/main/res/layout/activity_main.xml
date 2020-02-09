@@ -16,8 +16,9 @@
 
     </androidx.viewpager.widget.ViewPager>
 
+
     <LinearLayout
-        android:id="@+id/fabLayoutsend"
+        android:id="@+id/fabLayoutsendviber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -38,7 +39,37 @@
             when the snackbar appear, so if snackbar is not used please remove the above line from every view present in the xml-->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabsend"
+            android:id="@+id/fabsendviber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            app:fabSize="mini"
+            app:backgroundTint="@android:color/holo_purple"
+            app:srcCompat="@drawable/whatsapp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/fabLayoutsendwats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/fab_right"
+        android:layout_marginBottom="@dimen/fab_bottom"
+        android:clipToPadding="false"
+        android:gravity="center_vertical"
+        android:padding="@dimen/standard_12"
+        android:visibility="gone"
+        app:layout_behavior="com.ajaysinghdewari.floatingactionbuttonmenu.activities.utils.MoveUpwardBehavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <!--    if you are not using Snackbar with this activity then remove below line from every place of the file:
+
+            app:layout_behavior="com.ajaysinghdewari.floatingactionbuttonmenu.activities.utils.MoveUpwardBehavior"
+
+            the above line enables the view to Scrolls up with the snackbar as, the FAB do automaticaly scrolls up
+            when the snackbar appear, so if snackbar is not used please remove the above line from every view present in the xml-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabsendwats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
