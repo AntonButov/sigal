@@ -9,8 +9,8 @@ android {
         applicationId "pro.butovanton.sigal"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 8
-        versionName "4.4"
+        versionCode 9
+        versionName "4.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
