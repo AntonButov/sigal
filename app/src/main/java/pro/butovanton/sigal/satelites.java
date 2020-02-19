@@ -20,7 +20,7 @@ public class satelites extends Fragment {
 
     RecyclerView recyclerViewSat;
     satadapterinfo msatadapter;
-    private static int s;
+    public static ArrayList<satelliteinfo> satelitteinfos;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class satelites extends Fragment {
             }
         }));
             recyclerViewSat.setLayoutManager(new LinearLayoutManager(getContext()));
-        ArrayList<satelliteinfo> satelitteinfos = new ArrayList<satelliteinfo>();
+        satelitteinfos = new ArrayList<satelliteinfo>();
         satelitteinfos.add(new satelliteinfo("Экспресс АМ-6 (Ka)/Ka  53° в.д.","На спутнике Express AM6 в позиции 53.0°E находится большое количество открытых каналов на русском языке. В центральной части России прием каналов со спутника возможен на тарелку размером 0.6 м. Некоторые каналы имеют часовые сдвиги, что создает определенные удобства при просмотре.В составе каналов спутника Express AM6 много региональных ТВ каналов и Российских радиоканалов.",53));
         satelitteinfos.add(new satelliteinfo("Экспресс AM-5 (Ka) 140° в.д.","На этой позиции стоит спутник предназначений для покрытия дальнего востока России. Имеет Ku и C диапазоны. Идет вещание федеральных и региональных российских каналов, а также платные пакеты VIVA - Восточный Экспресс и канал Наш Футбол.",140));
         satelitteinfos.add(new satelliteinfo("Ямал 402, 55° в.д.","Российский спутник на борту которого только открытые каналы из России в разных часовых поясах такие как НТВ, Рен ТВ, ТНТ, Ю, Дисней и тд. Спутник вещает только в Ku диапазоне.",55));

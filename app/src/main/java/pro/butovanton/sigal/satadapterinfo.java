@@ -68,7 +68,6 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
                     intent.putExtra("coner", (int) conerplace((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     v.getContext().startActivity(intent);
-
                 }
             });
         }

@@ -259,7 +259,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         animationGorRot.setDuration(4000);
                         animationGorRot.setRepeatMode(Animation.REVERSE);
                         imageLineGor.startAnimation(animationGorRot);
-
+                        //satelites.satelitteinfos.get
                         float dxx = x1 - width/2;
                         float dyy = y1 - height;
                         float dalpha = (float) toDegrees(atan(dyy/dxx));
