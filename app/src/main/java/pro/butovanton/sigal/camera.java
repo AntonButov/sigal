@@ -130,11 +130,13 @@ public class camera extends FragmentActivity implements SensorEventListener {
          width = size.x;
          height = size.y;
 
+        ConstraintLayout constraintLayout = findViewById(R.id.conlayout);
         viewsats = new ArrayList<viewsat>();
-       // for (satelites.satelitteinfos:viewsat) {
+        int i = 0;
+        for (satelliteinfo satelliteinfo : satelites.satelitteinfos) {
             viewsats.add(new viewsat(getBaseContext()));
-            ConstraintLayout constraintLayout = findViewById(R.id.conlayout);
-            constraintLayout.addView(viewsats.get(0).imageSat);
+            constraintLayout.addView(viewsats.get(i).imageSat);
+            i++;
         }
     }
 
