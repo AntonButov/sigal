@@ -1,4 +1,5 @@
 package pro.butovanton.sigal;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
@@ -29,9 +30,12 @@ import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,7 +56,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
     private final int CAMERA1 = 0;
     private final int CAMERA2 = 1;
     private TextureView mTextureView = null;
-    private ImageView imageLineGor,imageSat,left;
+    private ImageView imageLineGor,left;
     private TextView azimut, corner, name, conersat, azimutsat;
 
     private SensorManager sensorManager;
@@ -74,6 +78,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
     private int azimuthsatint = 16;
 
     private int width,height;
+    private ArrayList<viewsat> viewsats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +104,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
          name = findViewById(R.id.name);
         azimutsat = findViewById(R.id.azimutsatv);
         conersat = findViewById(R.id.conersattext);
-        imageSat = findViewById(R.id.imageSat);
+//        imageSat = findViewById(R.id.imageSat);
         mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
             // Получение списка камер с устройства
@@ -124,8 +129,13 @@ public class camera extends FragmentActivity implements SensorEventListener {
         display.getSize(size);
          width = size.x;
          height = size.y;
-//                azimuthsatint = 180;
-//                conerplacesat = 0;
+
+        viewsats = new ArrayList<viewsat>();
+       // for (satelites.satelitteinfos:viewsat) {
+            viewsats.add(new viewsat(getBaseContext()));
+            ConstraintLayout constraintLayout = findViewById(R.id.conlayout);
+            constraintLayout.addView(viewsats.get(0).imageSat);
+        }
     }
 
     @Override
@@ -239,18 +249,18 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         timeold1 = event.timestamp;
                             azimut.setText(getString(R.string.azim)+ (int)azimuthcon);
                             corner.setText(getString(R.string.coner) + (int)conerplace);
-                        x1 =  width/2 - imageSat.getWidth()/2 + (int)dX((float) (rad(azimuthsatint)-azimuth ));
-                        y1 = height/2 - imageSat.getHeight()/2 + (int)-dY((float) (rad (conerplacesat)- coner ),0);
+                        x1 =  width/2 - viewsats.get(0).imageSat.getWidth()/2 + (int)dX((float) (rad(azimuthsatint)-azimuth ));
+                        y1 = height/2 - viewsats.get(0).imageSat.getHeight()/2 + (int)-dY((float) (rad (conerplacesat)- coner ),0);
                         if (azimuthsatint - azimuthcon > 90) {
                             x1 = x1 + 2000;
                         }
                         if (azimuthcon - azimuthsatint > 90) {
                              x1 = x1 - 2000;
                         }
-
-                        imageSat.setX(x1);
-                        imageSat.setY(y1);
-
+                        ////////////////////////////////////////////////////////
+                        viewsats.get(0).imageSat.setX(x1);
+                        viewsats.get(0).imageSat.setY(y1);
+                        ////////////////////////////////////////////////////////
                         int xG = -(imageLineGor.getWidth() - width)/2;
                         imageLineGor.setX(xG);
                         dy = height/2 + dY(coner,orientation[2]);

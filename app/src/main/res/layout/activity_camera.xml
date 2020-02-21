@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/conlayout"
     tools:context=".camera">
 
     <TextureView
@@ -52,14 +53,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageSat"
-        android:layout_width="200px"
-        android:layout_height="200px"
 
-        android:src="@drawable/satellitsmart"
 
-        />
 
     <ImageView
         android:id="@+id/left"
