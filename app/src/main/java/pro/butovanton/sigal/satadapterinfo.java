@@ -65,7 +65,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
                     Intent intent = new Intent(v.getContext(), camera.class);
                     intent.putExtra("name", satelitteinfos.get(getAdapterPosition()).getname());
                     intent.putExtra("azimut", (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
-                    intent.putExtra("coner", (int) conerplace((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
+                    intent.putExtra("coner", (int) conerplacesat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     v.getContext().startActivity(intent);
                 }
@@ -74,10 +74,13 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
     }
 
         //где g1 - долгота спутника, g2 - долгота места приема, v - широта места приема.
-        private float conerplace(float g2, float v, float g1) {
+        private float conerplacesat(float longitudeplace, float lantitudeplace, float conersat) {
         //    g1 = 36;
        //     g2 = 37;
        //     v =56;
+            float g2 = longitudeplace;
+            float v = lantitudeplace;
+            float g1 = conersat;
             g2 = (float) toRadians(g2);
             g1 = (float) toRadians(g1);
             v = (float) toRadians(v);
@@ -86,7 +89,10 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
             return (float) toDegrees(Math.atan(c1/sqrt(c2)));
         }
 
-        private float azimuthsat(float g2, float v, float g1) {
+        private float azimuthsat(float longitudeplace, float lantitudeplace, float conersat) {
+            float g2 = longitudeplace;
+            float v = lantitudeplace;
+            float g1 = conersat;
             g2 = (float) toRadians(g2);
             g1 = (float) toRadians(g1);
             v = (float) toRadians(v);
@@ -127,7 +133,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
         holder.name.setText(satelitteinfos.get(holder.getAdapterPosition()).getname());
         holder.description.setText(satelitteinfos.get(holder.getAdapterPosition()).getdescription());
         int azimut = (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
-        int coner=  (int) conerplace((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
+        int coner=  (int) conerplacesat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
         getdiametr(coner);
         holder.satinfo.setText("Азимут: " + azimut + " , угол места: " + coner+ "°");
         holder.diametr.setText("Диаметр антенны: " + getdiametr(coner) + " см.");
