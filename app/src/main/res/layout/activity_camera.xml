@@ -72,7 +72,8 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/texture" />
+        app:layout_constraintTop_toTopOf="@+id/texture"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/azimutsatv"
@@ -82,7 +83,8 @@
         android:textColor="@color/colorPrimary"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        android:visibility="gone"/>/>
 
     <TextView
         android:id="@+id/conersattext"
@@ -92,5 +94,6 @@
         android:textColor="@color/colorPrimary"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/azimutsatv" />
+        app:layout_constraintTop_toBottomOf="@+id/azimutsatv"
+        android:visibility="gone"/>/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -138,8 +138,14 @@ public class camera extends FragmentActivity implements SensorEventListener {
         for (satelliteinfo satelliteinfo : satelites.satelitteinfos) {
             float azimutplacesat = azimuthsat(MainActivity.longitude, MainActivity.lantitude,satelliteinfo.getConer());
             float conerplacesat = conerplacesat(MainActivity.longitude,MainActivity.lantitude,satelliteinfo.getConer());
-            viewsats.add(new viewsat(getBaseContext(),constraintLayout,azimutplacesat,conerplacesat));
+            if (conerplacesat >0) viewsats.add(new viewsat(getBaseContext(),constraintLayout,azimutplacesat,conerplacesat));
         }
+        for (viewsat viewsat : viewsats) { // считаем средний азмут и уголместа
+            azimuthsatint = (int) (azimuthsatint + viewsat.getAzimut());
+            conerplacesat = (int) (conerplacesat + viewsat.getConerplace());
+        }
+        azimuthsatint = azimuthsatint/(viewsats.size()+1);
+        conerplacesat = conerplacesat/(viewsats.size()+1);
     }
 
     @Override
@@ -253,17 +259,19 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         timeold1 = event.timestamp;
                             azimut.setText(getString(R.string.azim)+ (int)azimuthcon);
                             corner.setText(getString(R.string.coner) + (int)conerplace);
-                        x1 =  width/2 - viewsats.get(0).imageSat.getWidth()/2 + (int)dX((float) (rad(azimuthsatint)-azimuth ));
-                        y1 = height/2 - viewsats.get(0).imageSat.getHeight()/2 + (int)-dY((float) (rad (conerplacesat)- coner ),0);
-                        if (azimuthsatint - azimuthcon > 90) {
-                            x1 = x1 + 2000;
-                        }
-                        if (azimuthcon - azimuthsatint > 90) {
-                             x1 = x1 - 2000;
-                        }
                         ////////////////////////////////////////////////////////
-                        viewsats.get(0).imageSat.setX(x1);
-                        viewsats.get(0).imageSat.setY(y1);
+                        for (viewsat viewsat: viewsats) {
+                            x1 = width / 2 - viewsat.getWight() / 2 + (int) dX((float) (rad(viewsat.getAzimut()) - azimuth));
+                            y1 = height / 2 - viewsat.getHeight() / 2 + (int) -dY((float) (rad(viewsat.getConerplace()) - coner), 0);
+                            if (viewsat.getAzimut() - azimuthcon > 90) {
+                                x1 = x1 + 2000;
+                            }
+                            if (azimuthcon - viewsat.getAzimut() > 90) {
+                                x1 = x1 - 2000;
+                            }
+                            viewsat.setX(x1);
+                            viewsat.setY(y1);
+                        }
                         ////////////////////////////////////////////////////////
                         int xG = -(imageLineGor.getWidth() - width)/2;
                         imageLineGor.setX(xG);
