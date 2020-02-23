@@ -123,9 +123,9 @@ public class camera extends FragmentActivity implements SensorEventListener {
             e.printStackTrace();
         }
         Intent intent = getIntent();
-        name.setText(intent.getStringExtra("name"));
-        azimuthsatint = intent.getIntExtra("azimut",20);
-        conerplacesat = intent.getIntExtra("coner", 30);
+ //       name.setText(intent.getStringExtra("name"));
+//        azimuthsatint = intent.getIntExtra("azimut",20);
+//        conerplacesat = intent.getIntExtra("coner", 30);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -138,7 +138,8 @@ public class camera extends FragmentActivity implements SensorEventListener {
         for (satelliteinfo satelliteinfo : satelites.satelitteinfos) {
             float azimutplacesat = azimuthsat(MainActivity.longitude, MainActivity.lantitude,satelliteinfo.getConer());
             float conerplacesat = conerplacesat(MainActivity.longitude,MainActivity.lantitude,satelliteinfo.getConer());
-            if (conerplacesat >0) viewsats.add(new viewsat(getBaseContext(),constraintLayout,azimutplacesat,conerplacesat));
+            String name = satelliteinfo.getShortname();
+            if (conerplacesat >0) viewsats.add(new viewsat(getBaseContext(),constraintLayout,azimutplacesat,conerplacesat,name));
         }
         for (viewsat viewsat : viewsats) { // считаем средний азмут и уголместа
             azimuthsatint = (int) (azimuthsatint + viewsat.getAzimut());

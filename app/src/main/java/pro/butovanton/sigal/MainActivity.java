@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.content.pm.PackageManager;
 import android.view.Menu;
@@ -36,6 +37,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.core.CrashlyticsCore;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static androidx.camera.core.CameraX.getContext;
 
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
@@ -52,19 +56,23 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     private ActionBar actionBar;
 
     // Tabs title
-    private String[] tabs = {"Магазин", "Спутники"};
+    private String[] tabs = {"Спутники", "Оборудование"};
 
     private final int MY_REQUEST_LOCATION = 115;
     Location location;
 
     private WebView mWebView;
 
-    FloatingActionButton fab, fabcall, fabsendwats, fabsendviber;
+    FloatingActionButton fab, fabcall, fabsendwats, fabsendviber, fabsat;
     LinearLayout fabLayoutcall, fabLayoutsendwats, fabLayoutsendviber;
 
     boolean isFABOpen = false;
 
     String ver;
+
+    Timer timer;
+    TimerTask mTimerTask;
+    Handler handler=new Handler();
 
     @Override
     public void onBackPressed() {
@@ -118,6 +126,17 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
+                if (fabsat != null) {
+                    if (position == 0) {
+                        fabsat.setAlpha(0f);
+                        fabsat.setVisibility(View.VISIBLE);
+                        fabsat.animate()
+                                .alpha(1f)
+                                .setDuration(1000);
+                        // .setListener(null);
+                    }
+                    else fabsat.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -176,8 +195,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                 }
             }
         });
-
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,6 +205,19 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                 }
             }
         });
+        fabsat = findViewById(R.id.fabsat);
+        //fabsat.setVisibility(View.GONE);
+        fabsat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                         Intent intent = new Intent(v.getContext(), camera.class);
+ //                       intent.putExtra("name", satelitteinfos.get(getAdapterPosition()).getname());
+ //                        intent.putExtra("azimut", (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
+ //                        intent.putExtra("coner", (int) conerplacesat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
+                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                         v.getContext().startActivity(intent);
+            }
+        });
 
         fragmentManager = getSupportFragmentManager();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -195,6 +225,27 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                 getlocation();        }
         else
         getlocation();
+
+        repeatAnim();
+    }
+
+    public void repeatAnim(){
+        timer=new Timer();
+        mTimerTask=new TimerTask(){
+            public void run(){
+                handler.post(new Runnable(){
+                    public void run(){
+                        repeatAnimation();
+
+                    }
+                });
+            }
+        };
+        timer.schedule(mTimerTask, 1000,2000);
+    }
+    public void repeatAnimation(){
+     //   fabsat.clearAnimation();
+        fabsat.animate().rotationBy(360);
     }
 
     private boolean appInstalledOrNot(String uri) {
@@ -326,6 +377,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         viewPager.setCurrentItem(tab.getPosition());
+
     }
 
     @Override

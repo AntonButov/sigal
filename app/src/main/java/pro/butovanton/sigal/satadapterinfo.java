@@ -47,7 +47,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
         TextView satinfo;
         TextView diametr;
         TextView description;
-        Button satelittefinder;
+   //     Button satelittefinder;
 
 
         public satViewHolder(@NonNull final View itemView) {
@@ -56,20 +56,20 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
             satinfo = (TextView) itemView.findViewById(R.id.satinfivalue);
             diametr = (TextView) itemView.findViewById(R.id.danteny);
             description = (TextView) itemView.findViewById(R.id.description);
-            satelittefinder = (Button) itemView.findViewById(R.id.dost);
+  //          satelittefinder = (Button) itemView.findViewById(R.id.dost);
             int i = getAdapterPosition();
          //   Log.d("DEBUG", "getadapterposition= " + i);
-            satelittefinder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), camera.class);
-                    intent.putExtra("name", satelitteinfos.get(getAdapterPosition()).getname());
-                    intent.putExtra("azimut", (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
-                    intent.putExtra("coner", (int) conerplacesat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    v.getContext().startActivity(intent);
-                }
-            });
+   //         satelittefinder.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+ //                   Intent intent = new Intent(v.getContext(), camera.class);
+//                    intent.putExtra("name", satelitteinfos.get(getAdapterPosition()).getname());
+  //                  intent.putExtra("azimut", (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
+ //                   intent.putExtra("coner", (int) conerplacesat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
+  //                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+ //                   v.getContext().startActivity(intent);
+ //               }
+  //          });
         }
     }
 
@@ -137,8 +137,8 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
         getdiametr(coner);
         holder.satinfo.setText("Азимут: " + azimut + " , угол места: " + coner+ "°");
         holder.diametr.setText("Диаметр антенны: " + getdiametr(coner) + " см.");
-        if (coner < 0) holder.satelittefinder.setVisibility(View.GONE);
-        else holder.satelittefinder.setVisibility(View.VISIBLE);
+  //      if (coner < 0) holder.satelittefinder.setVisibility(View.GONE);
+  //      else holder.satelittefinder.setVisibility(View.VISIBLE);
     }
 
     @Override
