@@ -16,12 +16,13 @@ public class viewsat {
 
     public float azimutsat;
     public float conerplacesat;
+    public boolean side;
 
     public viewsat(Context context, ViewGroup parrent, float azimutsat, float conerplacesat, String name) {
 
         imageSat = new ImageView(context);
         imageSat.setImageResource(R.drawable.satellitsmart);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(150, 150);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
         imageSat.setLayoutParams(layoutParams);
         parrent.addView(imageSat);
         textView = new TextView(context);
@@ -48,13 +49,18 @@ public class viewsat {
         return this.conerplacesat;
     }
 
+    public boolean getside() { return this.side; }
+
     public void setX(float x) {
         imageSat.setX(x);
-        textView.setX(x+imageSat.getWidth());
+        if (this.side == true) textView.setX(x+imageSat.getWidth());
+        else textView.setX(x-textView.getWidth());
     }
 
     public void setY(float y) {
         imageSat.setY(y);
         textView.setY(y+imageSat.getWidth()/2);
     }
+
+    public void setside(boolean side) { this.side = side; }
 }

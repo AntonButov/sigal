@@ -141,9 +141,13 @@ public class camera extends FragmentActivity implements SensorEventListener {
             String name = satelliteinfo.getShortname();
             if (conerplacesat >0) viewsats.add(new viewsat(getBaseContext(),constraintLayout,azimutplacesat,conerplacesat,name));
         }
+        int i = 0;
         for (viewsat viewsat : viewsats) { // считаем средний азмут и уголместа
             azimuthsatint = (int) (azimuthsatint + viewsat.getAzimut());
             conerplacesat = (int) (conerplacesat + viewsat.getConerplace());
+            if ( i % 2 == 0) viewsat.setside(true);
+            else viewsat.setside(false);
+            i ++;
         }
         azimuthsatint = azimuthsatint/(viewsats.size()+1);
         conerplacesat = conerplacesat/(viewsats.size()+1);
