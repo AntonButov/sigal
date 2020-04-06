@@ -14,7 +14,11 @@ import retrofit2.http.Url;
 public interface JSONPlaceHolderApi {
     @Headers({"Authorization: Bearer "+ "270c912889785a9f743ef8b6e4410bb9"})
     @GET("/api/v1.0/shops")
-    public Call<JsonArray> getAllPosts();
+    public Call<JsonArray> getShops();
+
+    @Headers({"Authorization: Bearer "+ "270c912889785a9f743ef8b6e4410bb9"})
+    @GET("/api/v1.0/sites/3/shops/")
+    public Call<JsonArray> getShop();
 
     @GET("")
     Call<ResponseBody> downloadFlag(@Url String fileUrl);

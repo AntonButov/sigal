@@ -200,7 +200,7 @@ public class satelites extends Fragment {
 
         networkService = NetworkService.getInstance();
         jsonPlaceHolderApi = networkService.getJSONApi();
-            jsonPlaceHolderApi.getAllPosts().enqueue(new Callback<JsonArray>() {
+            jsonPlaceHolderApi.getShops().enqueue(new Callback<JsonArray>() {
                 @Override
                 public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                     Log.d("DEBUG", "respons ok");
@@ -213,6 +213,18 @@ public class satelites extends Fragment {
                 }
             });
 
+        jsonPlaceHolderApi.getShop().enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                Log.d("DEBUG", "respons ok");
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                Log.d("DEBUG", t.toString());
+
+            }
+        });
         return view;
     }
 

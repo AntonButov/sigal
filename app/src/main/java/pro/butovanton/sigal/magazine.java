@@ -32,7 +32,7 @@ public class magazine extends Fragment implements OnBackPressedListener {
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         // REMOTE RESOURCE
-        mWebView.loadUrl("http://www.сигал.com");
+        mWebView.loadUrl("http://www.xn--80afoo0a.com/");
         mWebView.setWebViewClient(new MyWebViewClient());
         return view;
     }
