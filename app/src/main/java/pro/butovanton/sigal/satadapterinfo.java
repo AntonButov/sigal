@@ -23,16 +23,13 @@ import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
 
 public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewHolder> {
-    private static AdapterView.OnItemClickListener onItemClickListener;
-    public static interface OnItemClickListener {
-        public void onItemClick(View view, int position);
-    }
 
     private List<satelliteinfo> satelitteinfos;
-    private RecyclerView.OnItemTouchListener mListener;
+    private ItemClickListener itemClickListener;
 
-     public satadapterinfo(List<satelliteinfo> satelitteinfos) {
+     public satadapterinfo(List<satelliteinfo> satelitteinfos, ItemClickListener itemClickListener) {
         this.satelitteinfos = satelitteinfos;
+        this.itemClickListener = itemClickListener;
     }
 
     public class satViewHolder extends RecyclerView.ViewHolder {
@@ -84,7 +81,12 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
 
     @Override
     public void onBindViewHolder(@NonNull satViewHolder holder, int position) {
-
+    holder.itemView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+        itemClickListener.OnClick(position);
+        }
+    });
     }
 
     public String getdiametr(int coner) {
@@ -101,7 +103,6 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
     @Override
     public void onViewAttachedToWindow(@NonNull satViewHolder holder) {
         super.onViewAttachedToWindow(holder);
-    //    Log.d("DEBUG","attache"+"holder="+holder.toString());
         holder.name.setText(satelitteinfos.get(holder.getAdapterPosition()).getname());
         holder.description.setText(satelitteinfos.get(holder.getAdapterPosition()).getdescription());
         int azimut = (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());

@@ -23,15 +23,9 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView;
-import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static android.view.View.GONE;
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 import static java.lang.Math.atan;
@@ -133,9 +126,14 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
         viewsats = new ArrayList<viewsat>();
         Intent intentCamera = getIntent();
-        String sat = intentCamera.getStringExtra("sat");
-        if (sat == null)
+        int sat = intentCamera.getIntExtra("sat", 255);
+        if (sat == 255)
             addSatsToView(SatelitesFragment.satelittes.getSatelites());
+        else {
+            List<satelliteinfo> satellite = new ArrayList<>();
+            satellite.add(SatelitesFragment.satelittes.getSatelites().get(sat));
+            addSatsToView(satellite);
+        }
 
         int i = 0;
         for (viewsat viewsat : viewsats) { // считаем средний азмут и уголместа

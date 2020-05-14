@@ -1,8 +1,8 @@
 package pro.butovanton.sigal;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
-public class SatelitesFragment extends Fragment {
-
- //  JSONPlaceHolderApi jsonPlaceHolderApi;
- //  NetworkService networkService;
+public class SatelitesFragment extends Fragment implements ItemClickListener {
 
     RecyclerView recyclerViewSat;
     satadapterinfo msatadapter;
@@ -35,44 +30,25 @@ public class SatelitesFragment extends Fragment {
 
         recyclerViewSat.setLayoutManager(new LinearLayoutManager(getContext()));
         satelittes = new Satelittes();
-        msatadapter = new satadapterinfo(satelittes.getSatelites());
+        msatadapter = new satadapterinfo(satelittes.getSatelites(), this::OnClick);
         recyclerViewSat.setAdapter(msatadapter);
 
-    /*    networkService = NetworkService.getInstance();
-        jsonPlaceHolderApi = networkService.getJSONApi();
-            jsonPlaceHolderApi.getShops().enqueue(new Callback<JsonArray>() {
-                @Override
-                public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                    Log.d("DEBUG", "respons ok");
-                }
-
-                @Override
-                public void onFailure(Call<JsonArray> call, Throwable t) {
-                    Log.d("DEBUG", t.toString());
-
-                }
-            });
-
-        jsonPlaceHolderApi.getShop().enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                Log.d("DEBUG", "respons ok");
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                Log.d("DEBUG", t.toString());
-
-            }
-        });*/
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-     //   Log.d("DEBUG", "Resume");
         msatadapter.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void OnClick(int id) {
+        Intent intent = new Intent(getContext(), camera.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("sat", id);
+        getActivity().startActivity(intent);
     }
 }
 
