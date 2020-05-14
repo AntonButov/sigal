@@ -130,14 +130,13 @@ public class camera extends FragmentActivity implements SensorEventListener {
          width = size.x;
          height = size.y;
 
-        ConstraintLayout constraintLayout = findViewById(R.id.conlayout);
+
         viewsats = new ArrayList<viewsat>();
-        for (satelliteinfo satelliteinfo : SatelitesFragment.satelittes.getSatelites()) {
-            float azimutplacesat = azimuthsat(MainActivity.longitude, MainActivity.lantitude,satelliteinfo.getConer());
-            float conerplacesat = conerplacesat(MainActivity.longitude,MainActivity.lantitude,satelliteinfo.getConer());
-            String name = satelliteinfo.getShortname();
-            if (conerplacesat >0) viewsats.add(new viewsat(getBaseContext(),constraintLayout,azimutplacesat,conerplacesat,name));
-        }
+        Intent intentCamera = getIntent();
+        String sat = intentCamera.getStringExtra("sat");
+        if (sat == null)
+            addSatsToView(SatelitesFragment.satelittes.getSatelites());
+
         int i = 0;
         for (viewsat viewsat : viewsats) { // считаем средний азмут и уголместа
             azimuthsatint = (int) (azimuthsatint + viewsat.getAzimut());
@@ -148,6 +147,16 @@ public class camera extends FragmentActivity implements SensorEventListener {
         }
         azimuthsatint = azimuthsatint/(viewsats.size()+1);
         conerplacesat = conerplacesat/(viewsats.size()+1);
+    }
+
+    void addSatsToView(List<satelliteinfo> satelittes) {
+        ConstraintLayout constraintLayout = findViewById(R.id.conlayout);
+        for (satelliteinfo satelliteinfo : satelittes) {
+            float azimutplacesat = azimuthsat(MainActivity.longitude, MainActivity.lantitude,satelliteinfo.getConer());
+            float conerplacesat = conerplacesat(MainActivity.longitude,MainActivity.lantitude,satelliteinfo.getConer());
+            String name = satelliteinfo.getShortname();
+            if (conerplacesat >0) viewsats.add(new viewsat(getBaseContext(),constraintLayout,azimutplacesat,conerplacesat,name));
+        }
     }
 
     @Override

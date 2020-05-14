@@ -9,7 +9,6 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.google.android.gms.measurement.module.Analytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.sql.Time;
@@ -19,12 +18,8 @@ class MyWebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-  //      Uri uri = Uri.parse(url);
-  //      if (uri.getHost() != null && (uri.getHost().contains("сигал.com")||uri.getHost().contains("xn--80afoo0a.com"))) {
-            return false;
+         return false;
         }
- //       return true;
-  //  }
 
     @Override
     public void onPageFinished(WebView view, String url) {

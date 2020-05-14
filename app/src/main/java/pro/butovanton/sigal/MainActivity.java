@@ -39,15 +39,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crashlytics.core.CrashlyticsCore;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 //import com.onesignal.OneSignal;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static androidx.camera.core.CameraX.getContext;
 
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
 
@@ -237,9 +235,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
             @Override
             public void onClick(View v) {
                          Intent intent = new Intent(v.getContext(), camera.class);
- //                       intent.putExtra("name", satelitteinfos.get(getAdapterPosition()).getname());
- //                        intent.putExtra("azimut", (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
- //                        intent.putExtra("coner", (int) conerplacesat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
                          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                          v.getContext().startActivity(intent);
             }

@@ -22,12 +22,13 @@ public class magazine extends Fragment implements OnBackPressedListener {
         super.onCreate(savedInstanceState);
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+ //   @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.magazine, container, false);
         mWebView = view.findViewById(R.id.activity_main_webview);
+
         mWebView.setWebViewClient(new WebViewClient());
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
