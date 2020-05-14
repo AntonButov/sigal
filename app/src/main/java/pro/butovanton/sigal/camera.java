@@ -123,9 +123,6 @@ public class camera extends FragmentActivity implements SensorEventListener {
             e.printStackTrace();
         }
         Intent intent = getIntent();
- //       name.setText(intent.getStringExtra("name"));
-//        azimuthsatint = intent.getIntExtra("azimut",20);
-//        conerplacesat = intent.getIntExtra("coner", 30);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -135,7 +132,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
         ConstraintLayout constraintLayout = findViewById(R.id.conlayout);
         viewsats = new ArrayList<viewsat>();
-        for (satelliteinfo satelliteinfo : satelites.satelitteinfos) {
+        for (satelliteinfo satelliteinfo : SatelitesFragment.satelittes.getSatelites()) {
             float azimutplacesat = azimuthsat(MainActivity.longitude, MainActivity.lantitude,satelliteinfo.getConer());
             float conerplacesat = conerplacesat(MainActivity.longitude,MainActivity.lantitude,satelliteinfo.getConer());
             String name = satelliteinfo.getShortname();
@@ -384,9 +381,7 @@ public class camera extends FragmentActivity implements SensorEventListener {
 
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
-  //              SurfaceTexture texture = mTextureView.getSurfaceTexture();
- //               texture.setDefaultBufferSize(720,480);
-  //              Surface surface = new Surface(texture);
+
                 Surface surface = new Surface(surfaceTexture);
                 try {
                     final CaptureRequest.Builder builder =

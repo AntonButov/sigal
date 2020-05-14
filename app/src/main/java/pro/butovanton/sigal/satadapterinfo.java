@@ -1,25 +1,18 @@
 package pro.butovanton.sigal;
 
-import android.app.Application;
-import android.content.Intent;
-import android.net.Uri;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
+
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static androidx.camera.core.CameraX.getActiveUseCases;
-import static androidx.camera.core.CameraX.getContext;
 import static java.lang.Math.atan;
 import static java.lang.Math.cos;
 import static java.lang.Math.pow;
@@ -35,10 +28,10 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
         public void onItemClick(View view, int position);
     }
 
-    private ArrayList<satelliteinfo> satelitteinfos;
+    private List<satelliteinfo> satelitteinfos;
     private RecyclerView.OnItemTouchListener mListener;
 
-     public satadapterinfo(ArrayList<satelliteinfo> satelitteinfos) {
+     public satadapterinfo(List<satelliteinfo> satelitteinfos) {
         this.satelitteinfos = satelitteinfos;
     }
 
@@ -47,8 +40,6 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
         TextView satinfo;
         TextView diametr;
         TextView description;
-   //     Button satelittefinder;
-
 
         public satViewHolder(@NonNull final View itemView) {
             super(itemView);
@@ -56,28 +47,13 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
             satinfo = (TextView) itemView.findViewById(R.id.satinfivalue);
             diametr = (TextView) itemView.findViewById(R.id.danteny);
             description = (TextView) itemView.findViewById(R.id.description);
-  //          satelittefinder = (Button) itemView.findViewById(R.id.dost);
             int i = getAdapterPosition();
-         //   Log.d("DEBUG", "getadapterposition= " + i);
-   //         satelittefinder.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
- //                   Intent intent = new Intent(v.getContext(), camera.class);
-//                    intent.putExtra("name", satelitteinfos.get(getAdapterPosition()).getname());
-  //                  intent.putExtra("azimut", (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
- //                   intent.putExtra("coner", (int) conerplacesat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(getAdapterPosition()).getConer()));
-  //                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
- //                   v.getContext().startActivity(intent);
- //               }
-  //          });
         }
     }
 
         //где g1 - долгота спутника, g2 - долгота места приема, v - широта места приема.
         private float conerplacesat(float longitudeplace, float lantitudeplace, float conersat) {
-        //    g1 = 36;
-       //     g2 = 37;
-       //     v =56;
+
             float g2 = longitudeplace;
             float v = lantitudeplace;
             float g1 = conersat;
@@ -99,7 +75,6 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
             return (float) (180 + toDegrees(atan(tan(g2-g1)/sin(v))));
         }
 
-
     @NonNull
     @Override
     public satViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -109,10 +84,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
 
     @Override
     public void onBindViewHolder(@NonNull satViewHolder holder, int position) {
-    //    Log.d("DEBUG", "position: "+position);
-  //      int coner=  (int) conerplace((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
-   //     if (coner < 0) holder.satelittefinder.setVisibility(View.GONE);
-  //      else holder.satelittefinder.setVisibility(View.VISIBLE);
+
     }
 
     public String getdiametr(int coner) {
@@ -137,19 +109,11 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
         getdiametr(coner);
         holder.satinfo.setText("Азимут: " + azimut + " , угол места: " + coner+ "°");
         holder.diametr.setText("Диаметр антенны: " + getdiametr(coner) + " см.");
-  //      if (coner < 0) holder.satelittefinder.setVisibility(View.GONE);
-  //      else holder.satelittefinder.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onViewRecycled(@NonNull satViewHolder holder) {
         super.onViewRecycled(holder);
-    //    Log.d("DEBUG","onViewRecicled");
-//        if (holder.getAdapterPosition() != -1) {
-//            int coner = (int) conerplace((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
-         //   satelittefinder.setVisibility(View.GONE);
-
-        //}
     }
 
     @Override

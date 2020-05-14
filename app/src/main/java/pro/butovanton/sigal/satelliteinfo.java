@@ -24,4 +24,11 @@ public class satelliteinfo {
     }
 
     public int getConer() { return this.coner; }
+
+    public String toString() {
+        return shortname + " \n" +
+               name + " \n" +
+               description + " \n" +
+               coner + " \n";
+    }
 }

@@ -2,6 +2,7 @@ package pro.butovanton.sigal;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -41,6 +42,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.core.CrashlyticsCore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+//import com.onesignal.OneSignal;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -65,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     private final int MY_REQUEST_LOCATION = 115;
     Location location;
-
-    private WebView mWebView;
 
     FloatingActionButton fab, fabcall, fabsendwats, fabsendviber, fabsat;
     LinearLayout fabLayoutcall, fabLayoutsendwats, fabLayoutsendviber;
@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+    //    oneSygnal(this.getApplication());
+
         // Initialization
         PackageInfo packageInfo = null;
         try {
@@ -450,6 +453,5 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         }
         return finalLoc;
     }
-
 
 }
