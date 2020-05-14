@@ -292,7 +292,6 @@ public class camera extends FragmentActivity implements SensorEventListener {
                         animatArrow.setDuration(5000);
                         left.startAnimation(animatArrow);
 
-                      //  Log.d("DEBUG", "azimut="+(int)azimuthcon+" xos= "+(int)xos+" coner= "+(int)conerplace);
                     }
                 ///------------------------------------------------------------------------------------
             }
