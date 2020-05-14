@@ -12,3 +12,5 @@
 /captures
 .externalNativeBuild
 .cxx
+*google*.json
+google_maps_api.xml
