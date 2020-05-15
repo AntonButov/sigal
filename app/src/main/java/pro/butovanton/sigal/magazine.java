@@ -22,7 +22,6 @@ public class magazine extends Fragment implements OnBackPressedListener {
         super.onCreate(savedInstanceState);
     }
 
- //   @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -33,7 +32,7 @@ public class magazine extends Fragment implements OnBackPressedListener {
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         // REMOTE RESOURCE
-        mWebView.loadUrl("http://www.xn--80afoo0a.com/");
+        mWebView.loadUrl("http://www.сигал.com");
         mWebView.setWebViewClient(new MyWebViewClient());
         return view;
     }
