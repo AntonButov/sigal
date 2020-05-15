@@ -37,7 +37,7 @@ public class MainActivityTest {
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
 
-       Thread.sleep(7000);
+       Thread.sleep(10000);
 
         ViewInteraction tabView = onView(
                 allOf(childAtPosition(
@@ -48,7 +48,7 @@ public class MainActivityTest {
                         isDisplayed()));
         tabView.perform(click());
 
-        Thread.sleep(7000);
+        Thread.sleep(10000);
     }
 
     private static Matcher<View> childAtPosition(

@@ -37,7 +37,7 @@ public class MapTest {
     public void mapTest() {
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -59,7 +59,7 @@ public class MapTest {
 
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(20000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
