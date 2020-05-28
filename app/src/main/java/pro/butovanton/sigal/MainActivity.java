@@ -65,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     private String[] tabs = {"Спутники", "Оборудование"};
 
     private final int MY_REQUEST_LOCATION = 115;
-    Location location;
+
+    private LocationClass locationClass;
 
     FloatingActionButton fab, fabcall, fabsendwats, fabsendviber, fabsat;
     LinearLayout fabLayoutcall, fabLayoutsendwats, fabLayoutsendviber;
@@ -102,9 +103,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    //    oneSygnal(this.getApplication());
+        locationClass = new LocationClass(getApplicationContext());
 
-        // Initialization
         PackageInfo packageInfo = null;
         try {
             packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
@@ -383,17 +383,10 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
        // else getlocation();
     }
 
-    void getlocation() {
-            location = getLocationWithCheckNetworkAndGPS(getApplicationContext());
-            if (location == null) {
-                lantitude = 56;
-                longitude = 92;
-
-            } else {
-                longitude = (int) location.getLongitude();
-                lantitude = (int) location.getLatitude();
-            }
-            Log.d("DEBUG", "Latitude=" + lantitude + "Longitude=" + longitude);
+    private void getlocation() {
+        Location location = locationClass.getlocation();
+        longitude = (int) location.getLongitude();
+        lantitude = (int) location.getAltitude();
     }
 
     @Override
@@ -411,43 +404,4 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
     }
-
-    public Location getLocationWithCheckNetworkAndGPS(Context mContext) {
-        LocationManager lm = (LocationManager)
-                mContext.getSystemService(Context.LOCATION_SERVICE);
-        assert lm != null;
-        boolean isGpsEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        boolean isNetworkLocationEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-        android.location.Location networkLoacation = null;
-        android.location.Location gpsLocation = null;
-        android.location.Location finalLoc = null;
-        if (isGpsEnabled)
-            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                return null;
-            }
-        gpsLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (isNetworkLocationEnabled)
-            networkLoacation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-        if (gpsLocation != null && networkLoacation != null) {
-
-            //smaller the number more accurate result will
-            if (gpsLocation.getAccuracy() > networkLoacation.getAccuracy())
-                return finalLoc =networkLoacation;
-            else
-                return finalLoc = gpsLocation;
-
-        } else {
-
-            if (gpsLocation != null) {
-                return finalLoc = gpsLocation;
-            } else if (networkLoacation != null) {
-                return finalLoc = networkLoacation;
-            }
-        }
-        return finalLoc;
-    }
-
 }
