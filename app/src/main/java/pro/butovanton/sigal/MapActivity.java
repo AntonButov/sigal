@@ -36,7 +36,7 @@ import com.yandex.runtime.network.RemoteError;
  * This is a basic example that displays a map and sets camera focus on the target location.
  * Note: When working on your projects, remember to request the required permissions.
  */
-public class MapActivity extends Activity implements Session.SearchListener, CameraListener {
+public class MapActivity extends Activity implements Session.SearchListener {
     /**
      * Replace "your_api_key" with a valid developer key.
      * You can get it at the https://developer.tech.yandex.ru/ website.
@@ -80,7 +80,6 @@ public class MapActivity extends Activity implements Session.SearchListener, Cam
         searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
 
         mapView = (MapView) findViewById(R.id.mapview);
-        mapView.getMap().addCameraListener(this);
 
         searchEdit = (EditText) findViewById(R.id.search_edit);
         searchEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -159,14 +158,4 @@ public class MapActivity extends Activity implements Session.SearchListener, Cam
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onCameraPositionChanged(
-            Map map,
-            CameraPosition cameraPosition,
-            CameraUpdateSource cameraUpdateSource,
-            boolean finished) {
-        if (finished) {
-    //        submitQuery(searchEdit.getText().toString());
-        }
-    }
 }
