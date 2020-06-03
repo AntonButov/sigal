@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-    public static int longitude, lantitude;
+    public static double longitude, lantitude;
 
     private ViewPager viewPager;
     private TabsAdapter tabsAdapter;
@@ -349,7 +349,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.navigation_home) {
-            Intent intent = new Intent(this, changelocation.class);
+        //    Intent intent = new Intent(this, changelocation.class);
+            Intent intent = new Intent(this, MapActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
@@ -385,8 +386,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     private void getlocation() {
         Location location = locationClass.getlocation();
-        longitude = (int) location.getLongitude();
-        lantitude = (int) location.getAltitude();
+        longitude = location.getLongitude();
+        lantitude = location.getLatitude();
     }
 
     @Override

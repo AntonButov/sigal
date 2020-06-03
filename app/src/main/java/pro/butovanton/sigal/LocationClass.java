@@ -28,8 +28,6 @@ public class LocationClass {
         return location;
     }
 
-
-
     private Location getLocationWithCheckNetworkAndGPS(Context mContext) {
         LocationManager lm = (LocationManager)
                 mContext.getSystemService(Context.LOCATION_SERVICE);

@@ -10,4 +10,8 @@
     <string name="coner">Угол места:</string>
     <string name="azim">Азимут:</string>
     <string name="title_activity_changelocation">Укажите новое местоположение</string>
+
+    <string name="unknown_error_message">Unknown error</string>
+    <string name="remote_error_message">Remote server error</string>
+    <string name="network_error_message">Network error</string>
 </resources>

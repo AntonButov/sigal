@@ -150,8 +150,8 @@ public class camera extends FragmentActivity implements SensorEventListener {
     void addSatsToView(List<satelliteinfo> satelittes) {
         ConstraintLayout constraintLayout = findViewById(R.id.conlayout);
         for (satelliteinfo satelliteinfo : satelittes) {
-            float azimutplacesat = azimuthsat(MainActivity.longitude, MainActivity.lantitude,satelliteinfo.getConer());
-            float conerplacesat = conerplacesat(MainActivity.longitude,MainActivity.lantitude,satelliteinfo.getConer());
+            float azimutplacesat = azimuthsat((float)MainActivity.longitude, (float)MainActivity.lantitude,satelliteinfo.getConer());
+            float conerplacesat = conerplacesat((float)MainActivity.longitude,(float)MainActivity.lantitude,satelliteinfo.getConer());
             String name = satelliteinfo.getShortname();
             if (conerplacesat >0) viewsats.add(new viewsat(getBaseContext(),constraintLayout,azimutplacesat,conerplacesat,name));
         }

@@ -42,7 +42,7 @@
         </service>
 
         <activity
-            android:name=".changelocation"
+            android:name=".MapActivity"
             android:label="@string/title_activity_changelocation" />
         <activity android:name=".camera" />
         <activity
