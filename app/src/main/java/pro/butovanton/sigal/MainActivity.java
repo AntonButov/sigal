@@ -34,23 +34,17 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-//import com.onesignal.OneSignal;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
 
-    public static FirebaseAnalytics mFirebaseAnalytics;
+ //   public static FirebaseAnalytics mFirebaseAnalytics;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -114,30 +108,9 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         ver = packageInfo.versionName ;
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mFirebaseAnalytics.setUserProperty("sigal", "sigal");
         Bundle bundle = new Bundle();
         bundle.putString("api", String.valueOf(Build.VERSION.SDK_INT));
         bundle.putString("ver", ver);
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundle);
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("DEBUG", "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-
-                        // Log and toast
-                        String msg = token;
-   //                     Log.d("DEBUG", "Token=" + msg);
-                   //     Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getSupportActionBar();
