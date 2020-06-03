@@ -42,7 +42,7 @@ public class MapActivity extends Activity implements Session.SearchListener {
      * You can get it at the https://developer.tech.yandex.ru/ website.
      */
     private final String MAPKIT_API_KEY = "554ce7d8-7881-4542-a90a-9d6bb581c4a3";
-    private Point TARGET_LOCATION;
+    private Point LOCATION;
 
     private MapView mapView;
     private EditText searchEdit;
@@ -93,15 +93,18 @@ public class MapActivity extends Activity implements Session.SearchListener {
             }
         });
 
-        TARGET_LOCATION = new Point(MainActivity.lantitude, MainActivity.longitude);
-        // And to show what can be done with it, we move the camera to the center of Saint Petersburg.
+    LOCATION = new Point(MainActivity.lantitude, MainActivity.longitude);
+    movePoint(LOCATION);
+    }
+
+    void movePoint(Point point) {
         mapView.getMap().move(
-                new CameraPosition(TARGET_LOCATION, 14.0f, 0.0f, 0.0f),
+                new CameraPosition(point, 14.0f, 0.0f, 0.0f),
                 new Animation(Animation.Type.SMOOTH, 5),
                 null);
         MapObjectCollection mapObjects = mapView.getMap().getMapObjects();
         mapObjects.clear();
-        mapObjects.addPlacemark(TARGET_LOCATION,
+        mapObjects.addPlacemark(point,
                 ImageProvider.fromResource(this, R.drawable.search_result));
     }
 
@@ -124,25 +127,14 @@ public class MapActivity extends Activity implements Session.SearchListener {
 
     @Override
     public void onSearchResponse(Response response) {
-        MapObjectCollection mapObjects = mapView.getMap().getMapObjects();
-        mapObjects.clear();
 
-        for (GeoObjectCollection.Item searchResult : response.getCollection().getChildren()) {
-            Point resultLocation = searchResult.getObj().getGeometry().get(0).getPoint();
-            if (resultLocation != null) {
-                mapObjects.addPlacemark(
-                        resultLocation,
-                        ImageProvider.fromResource(this, R.drawable.search_result));
-            }
-        }
         if (response.getCollection().getChildren().size() == 1) {
             Point pointNew = response.getCollection().getChildren().get(0).getObj().getGeometry().get(0).getPoint();
-            MainActivity.lantitude = pointNew.getLatitude();
-            MainActivity.longitude = pointNew.getLongitude();
-                    mapView.getMap().move(
-                    new CameraPosition(pointNew, 14.0f, 0.0f, 0.0f),
-                    new Animation(Animation.Type.SMOOTH, 5),
-                    null);
+            if (pointNew != null) {
+                MainActivity.lantitude = pointNew.getLatitude();
+                MainActivity.longitude = pointNew.getLongitude();
+                movePoint(pointNew);
+            }
         }
     }
 
