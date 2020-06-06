@@ -2,22 +2,23 @@ package pro.butovanton.sigal;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.yandex.mapkit.Animation;
-import com.yandex.mapkit.GeoObjectCollection;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.map.CameraListener;
 import com.yandex.mapkit.map.CameraPosition;
-import com.yandex.mapkit.map.CameraUpdateSource;
-import com.yandex.mapkit.map.Map;
 import com.yandex.mapkit.map.MapObjectCollection;
 import com.yandex.mapkit.map.VisibleRegionUtils;
 import com.yandex.mapkit.mapview.MapView;
@@ -44,9 +45,11 @@ public class MapActivity extends Activity implements Session.SearchListener {
     private Point LOCATION;
 
     private MapView mapView;
-    private EditText searchEdit;
+    private EditText searchEdit, searchEditLat, searchEditLng;
     private SearchManager searchManager;
     private Session searchSession;
+    private Switch aSwitch;
+    private boolean switchCheked = false;
 
     private void submitQuery(String query) {
         searchSession = searchManager.submit(
@@ -77,8 +80,62 @@ public class MapActivity extends Activity implements Session.SearchListener {
             }
         });
 
+        searchEditLat = findViewById(R.id.search_edit_Lat);
+        searchEditLng = findViewById(R.id.search_edit_Lng);
+        searchEditLng.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH &&
+                    notEmpty()) {
+                    String latS = searchEditLat.getText().toString();
+                    latS = latS.replace(",", ".");
+                    String lngS = searchEditLat.getText().toString();
+                    lngS = lngS.replace(",",".");
+                    Double lat = null;
+                    Double lng;
+                    try {
+                        lat = Double.valueOf(latS);
+                    }
+                    catch (NumberFormatException e) {
+
+                    }
+                    try {
+                        lng = Double.valueOf(lngS);
+                        movePoint( new Point(lat,lng));
+                    }
+                    catch (NumberFormatException e) {
+
+                    }
+                }
+                return false;
+            }
+        });
+
+        aSwitch = findViewById(R.id.switch1);
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    searchEdit.setVisibility(View.VISIBLE);
+                    searchEditLat.setVisibility(View.INVISIBLE);
+                    searchEditLng.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    searchEdit.setVisibility(View.INVISIBLE);
+                    searchEditLat.setVisibility(View.VISIBLE);
+                    searchEditLng.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        aSwitch.setChecked(true);
+
     LOCATION = new Point(MainActivity.lantitude, MainActivity.longitude);
     movePoint(LOCATION);
+    }
+
+    private boolean notEmpty() {
+        return ! (searchEditLat.getText().toString().equals("") ||
+                  searchEditLng.getText().toString().equals(""));
     }
 
     void movePoint(Point point) {
@@ -110,7 +167,10 @@ public class MapActivity extends Activity implements Session.SearchListener {
     @Override
     public void onSearchResponse(Response response) {
 
-        if (response.getCollection().getChildren().size() == 1) {
+        if (response != null)
+            Log.d("DEBUG", "Найдено " + response.getCollection().getChildren().size());
+
+        if (response.getCollection().getChildren().size() >= 1) {
             Point pointNew = response.getCollection().getChildren().get(0).getObj().getGeometry().get(0).getPoint();
             if (pointNew != null) {
                 MainActivity.lantitude = pointNew.getLatitude();

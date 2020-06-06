@@ -7,7 +7,8 @@ import com.yandex.mapkit.search.SearchFactory;
 
 public class App extends Application {
 
-    private final String MAPKIT_API_KEY = "554ce7d8-7881-4542-a90a-9d6bb581c4a3";
+  //  private final String MAPKIT_API_KEY = "554ce7d8-7881-4542-a90a-9d6bb581c4a3";
+    private final String MAPKIT_API_KEY = "2f7077a1-1872-412b-86f3-bd668916afc2";
 
     @Override
     public void onCreate() {
