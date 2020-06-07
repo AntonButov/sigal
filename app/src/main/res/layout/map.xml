@@ -72,10 +72,11 @@
 
                 android:showText="true"
                 android:textColor="@color/design_default_color_on_secondary"
+                android:textColorHighlight="@android:color/black"
                 android:textColorHint="@color/design_default_color_on_secondary"
                 android:textOff="Коорд"
                 android:textOn="Адрес"
-                android:textSize="30dp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
