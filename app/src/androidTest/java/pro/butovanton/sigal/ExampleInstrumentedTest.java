@@ -7,6 +7,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 
@@ -23,5 +26,11 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         assertEquals("pro.butovanton.sigal", appContext.getPackageName());
+    }
+
+    @Test
+    public void yamalParseKml() throws IOException, XmlPullParserException {
+        Parser parser = new Parser(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        parser.parse();
     }
 }
