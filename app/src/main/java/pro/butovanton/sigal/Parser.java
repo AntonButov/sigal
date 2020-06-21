@@ -33,9 +33,10 @@ public class Parser {
                     parser.next();
                     parser.next();
                     String haracteristic = parser.getAttributeValue(null, "name");
-                    getPower(haracteristic);
-                    getLuch(haracteristic);
-                    parser.next();
+                    Poligon poligon = new Poligon();
+                    poligon.setPower(getPower(haracteristic));
+                    poligon.setLucht(getLuch(haracteristic));
+                 parser.next();
                  while (!parser.getName().equals("coordinates"))  {
                      parser.next();
                      if (parser.getName() == null)
@@ -43,6 +44,7 @@ public class Parser {
                  }
                  parser.next();
                  String points = parser.getText();
+                 poligon.setPoints(getPoints(points));
                 }
             }
             parser.next();
@@ -60,7 +62,7 @@ public class Parser {
         return 1;
     }
 
-    private List<Point> getPoligon(String points) {
+    private List<Point> getPoints(String points) {
         List<Point> pointsList = new ArrayList<>();
 
         return pointsList;
