@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -31,6 +32,8 @@ public class ExampleInstrumentedTest {
     @Test
     public void yamalParseKml() throws IOException, XmlPullParserException {
         Parser parser = new Parser(InstrumentationRegistry.getInstrumentation().getTargetContext());
-        parser.parse();
+        List<Poligon> poligons = parser.parse();
+        assertTrue(poligons.size() > 0);
+        System.out.println(poligons.toString());
     }
 }
