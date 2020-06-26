@@ -2,29 +2,33 @@ package pro.butovanton.sigal;
 
 import android.content.Context;
 import android.content.res.XmlResourceParser;
-import android.graphics.Point;
 import android.location.Location;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class Parser {
 
     private Context context;
 
-    public Parser(Context context) {
+    private List<Poligon> poligons = new ArrayList<>();
+
+    public Parser(Context context) throws IOException, XmlPullParserException {
         this.context = context;
+        poligons = parse();
+    }
+
+    public List<Poligon> getPoligons() {
+        return poligons;
     }
 
     public List<Poligon> parse() throws XmlPullParserException, IOException {
 
-        XmlResourceParser parser = context.getResources().getXml(R.xml.yamal601);
+        XmlResourceParser parser = context.getResources().getXml(R.xml.yamal);
 
         List<Poligon> poligons = new ArrayList();
 
@@ -91,8 +95,8 @@ public class Parser {
 
     private Location parsePoint(String pointS) {
         Location point = new Location("GPS");
-        point.setLatitude(parseLatitude(pointS));
-        point.setLongitude(parseLongitude(pointS));
+        point.setLongitude(parseLatitude(pointS));//переворчиваем лат и лон
+        point.setLatitude(parseLongitude(pointS));
         return point;
     }
 
