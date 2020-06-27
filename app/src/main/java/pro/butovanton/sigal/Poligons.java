@@ -13,12 +13,22 @@ public class Poligons {
     }
 
     public List<Poligon> getIncludePoligons(Location C) {
-        List<Poligon> poligons = new ArrayList<>();
+        List<Poligon> poligonsInclude = new ArrayList<>();
         for (Poligon poligon : poligons)
             if (poligon.isInclude(C))
-                    poligons.add(poligon);
-        return poligons;
+                    poligonsInclude.add(poligon);
+        System.out.println("Point lat +" + C.getLatitude() + " lon " + C.getLongitude() + " include " + poligonsInclude.size());
+        return poligonsInclude;
     }
+
+    public Poligon getMaxPowePoligon(Location C) {
+        List<Poligon> poligons = getIncludePoligons(C);
+        Poligon poligonMaxPower = poligons.get(0);
+        for (Poligon poligon : poligons)
+            if (poligonMaxPower.getPower() < poligon.getPower())
+                poligonMaxPower = poligon;
+        return poligonMaxPower;
+        }
 
     public Poligon getLucht(int lucht) {
         for (Poligon poligon : poligons)
@@ -26,6 +36,8 @@ public class Poligons {
                 return poligon;
     return null;
     }
+
+
 
     public int getSize() {
         return poligons.size();

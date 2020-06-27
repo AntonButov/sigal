@@ -33,11 +33,17 @@ public class ExampleInstrumentedTest {
 
     public Parser parser;
     Poligons poligons;
+    Location Rostov = new Location("GPS");
+    Location Seul = new Location("GPS");
 
     @Before
     public void initParser() throws IOException, XmlPullParserException {
     parser = new Parser(InstrumentationRegistry.getInstrumentation().getTargetContext());
     poligons = new Poligons(parser.getPoligons());
+    Rostov.setLatitude(47.2357137);
+    Rostov.setLongitude(39.701505);
+    Seul.setLatitude(130.60691);
+    Seul.setLongitude(34.280533);
     }
 
     @Test
@@ -50,11 +56,18 @@ public class ExampleInstrumentedTest {
     public void isIncludeTest() {
         Poligon poligon = poligons.getLucht(4);
         Location C = new Location("GPS");
-        C.setLatitude(68.851255);
-        C.setLongitude(49.744448);
-     //   assertFalse(poligon.isInclude(C));
-        C.setLatitude(47.2357137);
-        C.setLongitude(39.701505);
+        C = Seul;
+        assertFalse(poligon.isInclude(C));
+        assertTrue(poligons.getIncludePoligons(C).size() == 0);
+        C = Rostov;
         assertTrue(poligon.isInclude(C));
+        assertTrue(poligons.getIncludePoligons(C).size() > 0);
     }
+
+    @Test
+    public void getPowerMax() {
+    Location C = Rostov;
+    assertNotNull(poligons.getMaxPowePoligon(C).getPower());
+    }
+
 }

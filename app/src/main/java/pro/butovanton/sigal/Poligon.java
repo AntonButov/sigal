@@ -2,6 +2,8 @@ package pro.butovanton.sigal;
 import android.graphics.Point;
 import android.location.Location;
 
+import org.w3c.dom.DOMImplementation;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,46 +33,8 @@ public class Poligon {
         return power;
     }
 
-    public boolean isInclude(Location C) {
-        boolean res = true;
-        Location A = null;
-        boolean firstPlus = isPositionPlus(points.get(0), points.get(1), C);
-        for (Location B : points) {
-            if (A != null) {
-               Boolean position = isPositionPlus(A, B, C);
-            if (firstPlus) {
-                if (position) ;
-                else return false;
-            }
-            else if (!position) ;
-                 else return false;
-            }
-            A = B;
-        }
-        return res;
-    }
-
-    public boolean isPositionPlus( Location A, Location B, Location C) {
-        Double a1, a2, k1,k2;
-        k1 = K(A,B);
-        k2 = K(A,C);
-        a1 = Math.atan(k1);
-        a2 = Math.atan(k2);
-            if (a2 - a1 < Math.PI && a2 - a1 > 0) return true;
-            else return false;
-    }
-
     public List<Location> getPoints() {
         return points;
-    }
-
-    private Double K(Location A, Location B) {
-        Double x1,x,y1,y;
-        y = A.getLatitude();
-        x = A.getLongitude();
-        y1= B.getLatitude();
-        x1= B.getLongitude();
-        return (y1 - y)/(x1 - x);
     }
 
     @Override
@@ -80,5 +44,35 @@ public class Poligon {
                 ", lucht=" + lucht +
                 ", points=" + points +
                 '}';
+    }
+
+    public boolean isInclude(Location point) {
+        boolean res = false;
+        Double pointX = point.getLongitude();
+        Double pointY = point.getLatitude();
+        int resCount = 0;
+        Location pointPrev = points.get(0);
+        for (int i = 1 ; i < points.size(); i++) {
+            Location pointThis = points.get(i);
+            if (isCross(point, pointPrev,pointThis))
+                resCount ++ ;
+            pointPrev = pointThis;
+        }
+        if (resCount == 1)
+            res = true;
+        return res;
+    }
+
+    public boolean isCross(Location point, Location pointPrev, Location pointThis) {
+        boolean res = false;
+        Double x0 = point.getLongitude();
+        Double y0 = point.getLatitude();
+        Double xA = pointPrev.getLongitude();
+        Double yA = pointPrev.getLatitude();
+        Double xB = pointThis.getLongitude();
+        Double yB = pointThis.getLatitude();
+        if (x0 < xA && x0 <= xB)
+            res = (yA < y0 && yB >= y0) || (yB < y0 && yA >=y0);
+        return res;
     }
 }
