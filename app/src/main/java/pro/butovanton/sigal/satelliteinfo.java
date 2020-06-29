@@ -6,11 +6,18 @@ public class satelliteinfo {
     private String description;
     private int coner;
 
-    public satelliteinfo(String shortname, String name, String description, int coner) {
+    public Poligons getPoligons() {
+        return poligons;
+    }
+
+    private Poligons poligons;
+
+    public satelliteinfo(String shortname, String name, String description, int coner, Poligons poligons) {
         this.shortname = shortname;
         this.name = name;
         this.description = description;
         this.coner = coner;
+        this.poligons = poligons;
     }
 
     public String getShortname() { return this.shortname; }

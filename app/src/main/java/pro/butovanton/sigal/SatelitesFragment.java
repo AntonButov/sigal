@@ -11,6 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+
 public class SatelitesFragment extends Fragment implements ItemClickListener {
 
     RecyclerView recyclerViewSat;
@@ -29,7 +33,13 @@ public class SatelitesFragment extends Fragment implements ItemClickListener {
         recyclerViewSat = view.findViewById(R.id.my_recycler_view);
 
         recyclerViewSat.setLayoutManager(new LinearLayoutManager(getContext()));
-        satelittes = new Satelittes();
+        try {
+            satelittes = new Satelittes(getContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        }
         msatadapter = new satadapterinfo(satelittes.getSatelites(), this::OnClick);
         recyclerViewSat.setAdapter(msatadapter);
 

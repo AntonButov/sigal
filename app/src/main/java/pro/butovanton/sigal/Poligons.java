@@ -22,11 +22,14 @@ public class Poligons {
     }
 
     public Poligon getMaxPowePoligon(Location C) {
+        Poligon poligonMaxPower = null;
         List<Poligon> poligons = getIncludePoligons(C);
-        Poligon poligonMaxPower = poligons.get(0);
-        for (Poligon poligon : poligons)
-            if (poligonMaxPower.getPower() < poligon.getPower())
-                poligonMaxPower = poligon;
+        if (poligons.size() > 0) {
+            poligonMaxPower = poligons.get(0);
+            for (Poligon poligon : poligons)
+                if (poligonMaxPower.getPower() < poligon.getPower())
+                    poligonMaxPower = poligon;
+        }
         return poligonMaxPower;
         }
 
@@ -36,8 +39,6 @@ public class Poligons {
                 return poligon;
     return null;
     }
-
-
 
     public int getSize() {
         return poligons.size();

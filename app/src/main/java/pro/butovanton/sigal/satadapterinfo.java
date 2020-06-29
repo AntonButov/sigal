@@ -1,5 +1,6 @@
 package pro.butovanton.sigal;
 
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import java.util.List;
 
 import static java.lang.Math.atan;
 import static java.lang.Math.cos;
-import static java.lang.Math.pow;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.tan;
@@ -37,6 +37,8 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
         TextView satinfo;
         TextView diametr;
         TextView description;
+        TextView lucht;
+        TextView power;
 
         public satViewHolder(@NonNull final View itemView) {
             super(itemView);
@@ -44,7 +46,8 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
             satinfo = (TextView) itemView.findViewById(R.id.satinfivalue);
             diametr = (TextView) itemView.findViewById(R.id.danteny);
             description = (TextView) itemView.findViewById(R.id.description);
-            int i = getAdapterPosition();
+            lucht = itemView.findViewById(R.id.lucht);
+            power = itemView.findViewById(R.id.power);
         }
     }
 
@@ -81,23 +84,7 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
 
     @Override
     public void onBindViewHolder(@NonNull satViewHolder holder, int position) {
-    holder.itemView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-        itemClickListener.OnClick(position);
-        }
-    });
-    }
 
-    public String getdiametr(int coner) {
-        String diametr = "";
-       if (coner < 0) diametr = "-";
-           else if (coner < 10) diametr = "120";
-           else if (coner < 15) diametr = "100";
-           else if (coner < 20) diametr = "90";
-           else if (coner < 25) diametr = "80";
-           else if (coner < 90) diametr = "70";
-       return diametr;
     }
 
     @Override
@@ -107,9 +94,50 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
         holder.description.setText(satelitteinfos.get(holder.getAdapterPosition()).getdescription());
         int azimut = (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
         int coner=  (int) conerplacesat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
-        getdiametr(coner);
         holder.satinfo.setText("Азимут: " + azimut + " , угол места: " + coner+ "°");
-        holder.diametr.setText("Диаметр антенны: " + getdiametr(coner) + " см.");
+        String  diametr = getdiametr(coner);
+        Poligons poligons = satelitteinfos.get(holder.getAdapterPosition()).getPoligons();
+        if (poligons != null) {
+            Location location = new Location("GPS");
+            location.setLatitude(MainActivity.lantitude);
+            location.setLongitude(MainActivity.longitude);
+            Poligon poligonMaxPower = satelitteinfos.get(holder.getAdapterPosition()).getPoligons().getMaxPowePoligon(location);
+            if (poligonMaxPower != null) {
+                holder.lucht.setVisibility(View.VISIBLE);
+                holder.lucht.setText("Луч: " + poligonMaxPower.getLucht());
+                holder.power.setVisibility(View.VISIBLE);
+                holder.power.setText("Мощность: " + poligonMaxPower.getPower());
+                diametr = getdiametr(poligonMaxPower.getPower());
+            }
+        }
+        holder.diametr.setText("Диаметр антенны: " + diametr + " см.");
+    }
+
+    public String getdiametr(int coner) {
+        String diametr = "";
+        if (coner < 0) diametr = "-";
+        else if (coner < 10) diametr = "120";
+        else if (coner < 15) diametr = "100";
+        else if (coner < 20) diametr = "90";
+        else if (coner < 25) diametr = "80";
+        else if (coner < 90) diametr = "70";
+        return diametr;
+    }
+
+    public String getdiametr(float power) {
+        String diametr = "";
+        if (power > 62) diametr = "50";
+        else if (power > 61.5) diametr = "50-60";
+        else if (power > 61) diametr = "55-65";
+        else if (power > 60.5) diametr = "60-67";
+        else if (power > 60) diametr = "65-85";
+        else if (power > 59.5) diametr = "75-95";
+        else if (power > 59) diametr = "85-105";
+        else if (power > 58) diametr = "95-120";
+        else if (power > 57) diametr = "105-135";
+        else if (power > 56) diametr = "120-150";
+        else if (power > 55) diametr = "135-170";
+        return diametr;
     }
 
     @Override
