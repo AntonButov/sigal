@@ -100,10 +100,11 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
         int azimut = (int) azimuthsat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
         int coner=  (int) conerplacesat((float) MainActivity.longitude, (float) MainActivity.lantitude, (float) satelitteinfos.get(holder.getAdapterPosition()).getConer());
         holder.satinfo.setText("Азимут: " + azimut + " , угол места: " + coner+ "°");
-        String  diametr = getdiametr(coner);
+        String  diametr = getdiametr(coner) + " см.";
         Poligons poligons = satelitteinfos.get(holder.getAdapterPosition()).getPoligons();
         if (poligons != null) {
             Location location = new Location("GPS");
+
             location.setLatitude(MainActivity.lantitude);
             location.setLongitude(MainActivity.longitude);
             Poligon poligonMaxPower = satelitteinfos.get(holder.getAdapterPosition()).getPoligons().getMaxPowePoligon(location);
@@ -114,11 +115,12 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
                 holder.power.setText("Мощность: " + poligonMaxPower.getPower());
                 diametr = getdiametr(poligonMaxPower.getPower());
             } else {
-                holder.lucht.setVisibility(View.INVISIBLE);
+                diametr = "> 2м";
+                holder.lucht.setText("Уточняйте у менеджера");
                 holder.power.setVisibility(View.INVISIBLE);
             }
         }
-        holder.diametr.setText("Диаметр антенны: " + diametr + " см.");
+        holder.diametr.setText("Диаметр антенны: " + diametr);
     }
 
     public String getdiametr(int coner) {
