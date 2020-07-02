@@ -84,7 +84,12 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
 
     @Override
     public void onBindViewHolder(@NonNull satViewHolder holder, int position) {
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemClickListener.OnClick(position);
+            }
+       });
     }
 
     @Override
@@ -108,6 +113,9 @@ public class satadapterinfo extends RecyclerView.Adapter<satadapterinfo.satViewH
                 holder.power.setVisibility(View.VISIBLE);
                 holder.power.setText("Мощность: " + poligonMaxPower.getPower());
                 diametr = getdiametr(poligonMaxPower.getPower());
+            } else {
+                holder.lucht.setVisibility(View.INVISIBLE);
+                holder.power.setVisibility(View.INVISIBLE);
             }
         }
         holder.diametr.setText("Диаметр антенны: " + diametr + " см.");

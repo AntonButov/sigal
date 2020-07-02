@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -19,6 +20,8 @@ import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.InputListener;
+import com.yandex.mapkit.map.Map;
 import com.yandex.mapkit.map.MapObjectCollection;
 import com.yandex.mapkit.map.VisibleRegionUtils;
 import com.yandex.mapkit.mapview.MapView;
@@ -49,7 +52,7 @@ public class MapActivity extends Activity implements Session.SearchListener {
     private SearchManager searchManager;
     private Session searchSession;
     private Switch aSwitch;
-    private boolean switchCheked = false;
+    private Button buttomSetupLockation;
 
     private void submitQuery(String query) {
         searchSession = searchManager.submit(
@@ -67,6 +70,17 @@ public class MapActivity extends Activity implements Session.SearchListener {
         searchManager = SearchFactory.getInstance().createSearchManager(SearchManagerType.COMBINED);
 
         mapView = (MapView) findViewById(R.id.mapview);
+        mapView.getMap().addInputListener(new InputListener() {
+            @Override
+            public void onMapTap(@NonNull Map map, @NonNull Point point) {
+                movePoint(point);
+            }
+
+            @Override
+            public void onMapLongTap(@NonNull Map map, @NonNull Point point) {
+
+            }
+        });
 
         searchEdit = (EditText) findViewById(R.id.search_edit);
         searchEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -129,6 +143,17 @@ public class MapActivity extends Activity implements Session.SearchListener {
         });
         aSwitch.setChecked(true);
 
+        buttomSetupLockation = findViewById(R.id.buttonSetLocation);
+        buttomSetupLockation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LOCATION = mapView.getMap().getCameraPosition().getTarget();
+                MainActivity.lantitude = LOCATION.getLatitude();
+                MainActivity.longitude = LOCATION.getLongitude();
+                onBackPressed();
+            }
+        });
+
     LOCATION = new Point(MainActivity.lantitude, MainActivity.longitude);
     movePoint(LOCATION);
     }
@@ -163,7 +188,6 @@ public class MapActivity extends Activity implements Session.SearchListener {
         mapView.onStart();
     }
 
-
     @Override
     public void onSearchResponse(Response response) {
 
@@ -173,8 +197,6 @@ public class MapActivity extends Activity implements Session.SearchListener {
         if (response.getCollection().getChildren().size() >= 1) {
             Point pointNew = response.getCollection().getChildren().get(0).getObj().getGeometry().get(0).getPoint();
             if (pointNew != null) {
-                MainActivity.lantitude = pointNew.getLatitude();
-                MainActivity.longitude = pointNew.getLongitude();
                 movePoint(pointNew);
             }
         }

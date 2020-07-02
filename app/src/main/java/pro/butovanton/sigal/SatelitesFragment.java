@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ public class SatelitesFragment extends Fragment implements ItemClickListener {
     RecyclerView recyclerViewSat;
     satadapterinfo msatadapter;
     public static Satelittes satelittes;
+    private TextView textViewLocation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class SatelitesFragment extends Fragment implements ItemClickListener {
         msatadapter = new satadapterinfo(satelittes.getSatelites(), this::OnClick);
         recyclerViewSat.setAdapter(msatadapter);
 
+        textViewLocation = view.findViewById(R.id.textViewLocat);
+
         return view;
     }
 
@@ -50,6 +54,7 @@ public class SatelitesFragment extends Fragment implements ItemClickListener {
     public void onResume() {
         super.onResume();
         msatadapter.notifyDataSetChanged();
+        textViewLocation.setText("Широта: " + String.format("%.3f",MainActivity.lantitude) + "; долгота: " + String.format("%.3f", MainActivity.longitude));
     }
 
 
