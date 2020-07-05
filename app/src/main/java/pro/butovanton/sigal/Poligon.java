@@ -58,6 +58,10 @@ public class Poligon {
                 resCount ++ ;
             pointPrev = pointThis;
         }
+        Location pointBegin = points.get(0);
+        Location pointEnd = points.get(points.size()-1);
+        if (isCross(point, pointBegin,pointEnd))
+            resCount ++ ;
         if (resCount == 1)
             res = true;
         return res;
@@ -73,6 +77,9 @@ public class Poligon {
         Double yB = pointThis.getLatitude();
         if (x0 < xA && x0 <= xB)
             res = (yA < y0 && yB >= y0) || (yB < y0 && yA >=y0);
+        if (res == true)
+                if (lucht == 30)
+                    if (res == true) ;
         return res;
     }
 }

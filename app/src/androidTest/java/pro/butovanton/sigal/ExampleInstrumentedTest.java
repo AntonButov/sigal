@@ -35,6 +35,7 @@ public class ExampleInstrumentedTest {
     Poligons poligons;
     Location Rostov = new Location("GPS");
     Location Seul = new Location("GPS");
+    Location Bor = new Location("GPS");
 
     @Before
     public void initParser() throws IOException, XmlPullParserException {
@@ -44,6 +45,8 @@ public class ExampleInstrumentedTest {
     Rostov.setLongitude(39.701505);
     Seul.setLatitude(130.60691);
     Seul.setLongitude(34.280533);
+    Bor.setLatitude(61.593078);
+    Bor.setLongitude(90.0317);
     }
 
     @Test
@@ -62,7 +65,10 @@ public class ExampleInstrumentedTest {
         C = Rostov;
         assertTrue(poligon.isInclude(C));
         assertTrue(poligons.getIncludePoligons(C).size() > 0);
-    }
+        C = Bor;
+        poligon = poligons.getMaxPowePoligon(C);
+        assertTrue(poligon.getLucht() == 27);
+        }
 
     @Test
     public void getPowerMax() {
